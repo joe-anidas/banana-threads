@@ -1,0 +1,192 @@
+{%- style -%}
+  .header__inline-menu {
+    margin-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    margin-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  } 
+
+  @media screen and (min-width: 990px) {
+    .header__inline-menu {
+      margin-top: {{ section.settings.padding_top }}px;
+      margin-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="header__inline-menu">
+  <nav class="header__inline-menu" role="navigation">
+    <ul class="list-menu list-menu--inline" role="list">
+      {%- for link in section.settings.menu.links -%}
+        <li>
+          {%- if link.links != blank -%}
+            <header-menu>
+              <details>
+                <summary class="header__menu-item list-menu__item link focus-inset">
+                  <span {%- if link.child_active %} class="header__active-menu-item"{% endif %}>{{ link.title | escape }}</span>
+                  {% render 'icon-caret' %}
+                </summary>
+                <ul
+                  class="header__submenu list-menu list-menu--disclosure"
+                  role="list"
+                  tabindex="-1"
+                >
+                  {%- for childlink in link.links -%}
+                    <li>
+                      {%- if childlink.links == blank -%}
+                        <a
+                          href="{{ childlink.url }}"
+                          class="header__menu-item list-menu__item link link--text focus-inset"
+                          {% if childlink.current %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          <span {%- if childlink.current %} class="header__active-menu-item"{% endif %}>
+                            {{ childlink.title | escape }}
+                          </span>
+                        </a>
+                      {%- else -%}
+                        <details>
+                          <summary class="header__menu-item link link--text list-menu__item focus-inset">
+                            <span {%- if childlink.child_active %} class="header__active-menu-item"{% endif %}>
+                              {{ childlink.title | escape }}
+                            </span>
+                            {% render 'icon-caret' %}
+                          </summary>
+                          <ul class="header__submenu list-menu list-menu--disclosure" role="list">
+                            {%- for grandchildlink in childlink.links -%}
+                              <li>
+                                <a
+                                  href="{{ grandchildlink.url }}"
+                                  class="header__menu-item list-menu__item link link--text focus-inset"
+                                  {% if grandchildlink.current %}
+                                    aria-current="page"
+                                  {% endif %}
+                                >
+                                  <span {%- if grandchildlink.current %} class="header__active-menu-item"{% endif %}>
+                                    {{ grandchildlink.title | escape }}
+                                  </span>
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </details>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </details>
+            </header-menu>
+          {%- else -%}
+            <a
+              href="{{ link.url }}"
+              class="header__menu-item header__menu-item--category link link--text focus-inset"
+              {% if link.current %}
+                aria-current="page"
+              {% endif %}
+            >
+              <span {%- if link.current %} class="header__active-menu-item"{% endif %}>{{ link.title | escape }}</span>
+            </a>
+            
+            {% comment %} Collection container that appears on hover {% endcomment %}
+            {% if link.title contains 'Collections' or link.title contains 'Categories' %}
+            <div class="collection-hover-container">
+              <div class="hover-collections-grid">
+                {% for collection in collections limit: 6 %}
+                  <a href="{{ collection.url }}" class="hover-collection-item">
+                    {% if collection.image %}
+                      {{ collection.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: collection.title }}
+                    {% else %}
+                      {{ 'collection-placeholder.svg' | asset_url | img_tag: 'Placeholder image', 'placeholder-svg' }}
+                    {% endif %}
+                    <p class="hover-collection-title">{{ collection.title }}</p>
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </nav>
+</div>
+
+{% javascript %}
+  class HeaderMenu extends HTMLElement {
+    constructor() {
+      super();
+      this.header = document.querySelector('.header-wrapper');
+
+      this.addEventListener('keyup', this.onKeyUp.bind(this));
+      this.addEventListener('focusout', this.onFocusOut.bind(this));
+      this.bindEvents();
+    }
+
+    bindEvents() {
+      this.querySelectorAll('details').forEach((submenu) => {
+        submenu.addEventListener('mouseover', this.onSubmenuMouseOver.bind(this));
+        submenu.addEventListener('mouseleave', this.onSubmenuMouseLeave.bind(this));
+
+        submenu.addEventListener('keyup', (event) => {
+          if (event.code.toUpperCase() === 'ESCAPE') this.closeSubmenu(submenu);
+        });
+
+        submenu.querySelector('summary').addEventListener('click', (event) => {
+          event.preventDefault();
+          this.toggleSubmenu(submenu);
+        });
+      });
+    }
+
+    onKeyUp(event) {
+      if (event.code.toUpperCase() !== 'ESCAPE') return;
+
+      const openDetailsElement = event.target.closest('details[open]');
+      if (!openDetailsElement) return;
+
+      const summaryElement = openDetailsElement.querySelector('summary');
+      this.closeSubmenu(openDetailsElement);
+      summaryElement.focus();
+    }
+
+    onFocusOut(event) {
+      const submenuParent = event.target.closest('details[open]');
+      if (!submenuParent) return;
+
+      setTimeout(() => {
+        if (!submenuParent.contains(document.activeElement)) {
+          this.closeSubmenu(submenuParent);
+        }
+      });
+    }
+
+    onSubmenuMouseOver(event) {
+      const submenu = event.currentTarget;
+      this.openSubmenu(submenu);
+    }
+
+    onSubmenuMouseLeave(event) {
+      const submenu = event.currentTarget;
+      this.closeSubmenu(submenu);
+    }
+
+    openSubmenu(details) {
+      details.setAttribute('open', true);
+      details.querySelector('summary').setAttribute('aria-expanded', true);
+    }
+
+    closeSubmenu(details) {
+      details.removeAttribute('open');
+      details.querySelector('summary').setAttribute('aria-expanded', false);
+    }
+
+    toggleSubmenu(details) {
+      if (details.hasAttribute('open')) {
+        this.closeSubmenu(details);
+      } else {
+        this.openSubmenu(details);
+      }
+    }
+  }
+
+  customElements.define('header-menu', HeaderMenu);
+{% endjavascript %}
