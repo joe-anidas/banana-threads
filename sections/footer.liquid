@@ -7,8 +7,39 @@ f{% comment %}theme-check-disable UndefinedObject{% endcomment %}
 
 {%- style -%}
   :root {
-    --color-foreground: 255, 255, 255;
+    --color-foreground: none !important;
+        --inputs-radius: 30px !important;
   }
+
+    /* Left Section Styling */
+.footer-block--left {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This centers all content horizontally */
+    text-align: left; /* This centers the text */
+}
+
+/* Links Styling - Make click area fit content */
+.footer-block__links {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 20px;
+    margin-left: 0; /* Remove the left margin */
+    width: auto; /* Let the width be determined by content */
+}
+
+.footer-block__links a {
+    padding: 5px 0; /* Add some vertical padding for better click area */
+    display: inline-block; /* Make the click area only as wide as the text */
+    text-align: left; /* Center the text */
+}
+  .newsletter-form__field-wrapper .field__input {
+    padding: 1rem;
+}
   
   .footer {
     margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
@@ -37,7 +68,7 @@ f{% comment %}theme-check-disable UndefinedObject{% endcomment %}
 /* Newsletter Form Styling */
 .newsletter-form__field-wrapper {
   display: flex;
-  gap: 10px;
+  gap: 0px;
   width: 100%;
   align-items: center;
 }
@@ -299,7 +330,7 @@ f{% comment %}theme-check-disable UndefinedObject{% endcomment %}
    
 
     color: #000;
-    border: 2px solid #000;
+    border: 3px solid #000;
     border-radius: 30px;
     background: #fff;
   

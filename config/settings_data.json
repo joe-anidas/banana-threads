@@ -1,12 +1,4 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
+
 {
   "current": {
     "logo": "shopify://shop_images/Banana-Threads.png",
@@ -146,7 +138,6 @@
       "scheme-1": {
         "settings": {
           "background": "#ffffff",
-          "hover_color": "#dcb301",
           "background_gradient": "",
           "text": "#121212",
           "button": "#121212",
@@ -158,7 +149,6 @@
       "scheme-2": {
         "settings": {
           "background": "#f3f3f3",
-          "hover_color": "#dcb301",
           "background_gradient": "",
           "text": "#121212",
           "button": "#121212",
@@ -170,7 +160,6 @@
       "scheme-3": {
         "settings": {
           "background": "#242833",
-          "hover_color": "#dcb301",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#ffffff",
@@ -182,7 +171,6 @@
       "scheme-4": {
         "settings": {
           "background": "#121212",
-          "hover_color": "#dcb301",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#ffffff",
@@ -194,7 +182,6 @@
       "scheme-5": {
         "settings": {
           "background": "#334fb4",
-          "hover_color": "#dcb301",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#ffffff",
@@ -206,7 +193,6 @@
       "scheme-5b142ac9-2875-4ead-a68a-8348b122a007": {
         "settings": {
           "background": "#ffffff",
-          "hover_color": "#dcb301",
           "background_gradient": "",
           "text": "#121212",
           "button": "#121212",
@@ -218,7 +204,6 @@
       "scheme-14aee5a8-4dbc-49fb-8a48-2a83f9415193": {
         "settings": {
           "background": "#38d6fe",
-          "hover_color": "#dcb301",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#f3f3f3",
@@ -230,7 +215,6 @@
       "scheme-d83f9141-6fd0-4e5f-be12-3246b279392c": {
         "settings": {
           "background": "#ffffff",
-          "hover_color": "#dcb301",
           "background_gradient": "linear-gradient(180deg, #d4bdff, #c6ddfe 50.5%,  #c6ddfe 100%)",
           "text": "#4a0072",
           "button": "#121212",
@@ -242,7 +226,6 @@
       "scheme-a936634b-f1f1-4180-88d6-0cf0f68a2f67": {
         "settings": {
           "background": "#dad9ff",
-          "hover_color": "#dcb301",
           "background_gradient": "",
           "text": "#121212",
           "button": "#121212",

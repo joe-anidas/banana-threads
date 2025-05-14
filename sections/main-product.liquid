@@ -61,6 +61,54 @@
     top: 0;
     left: 0;
 }
+    /* Quantity Selector - Limit to 4 */
+.quantity__input[type="number"] {
+  max: 4;
+}
+
+/* Variant Picker Container - Side by Side Layout */
+.variant-picker-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Variant Picker - Adjust width */
+.product-form__input.product-form__quantity {
+  flex: 1;
+  min-width: 120px;
+  max-width: 200px;
+}
+
+/* Quantity Input - Adjust width */
+.quantity__input {
+  width: 100%;
+}
+
+/* Size Chart Button - Adjust positioning */
+.size-chart-opener {
+  margin-left: auto;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 749px) {
+  .variant-picker-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .product-form__input.product-form__quantity {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .size-chart-opener {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
 .product__description {
     color: #914dff !important;
     font-size: 14px !important;
@@ -156,7 +204,7 @@
 }
 
 .size-chart-image img {
-  width: 100%;
+  width: 80%;
   height: auto;
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -976,8 +1024,7 @@
       
       <div class="size-chart-table">
         <h2 class="h2">Size Guide</h2>
-        <p class="size-note">Oversized are for streetwear designs and normal sized are for mascot designs.</p>
-        
+       
         <div class="size-tabs">
           <button class="size-tab active" data-unit="inches">Inches</button>
           <button class="size-tab" data-unit="cm">Centimeters</button>
@@ -1087,7 +1134,7 @@
   }
 
   .size-chart-image img {
-    width: 100%;
+    width: 80%;
     height: auto;
     border-radius: 4px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
