@@ -83,6 +83,7 @@ class CartDrawer extends HTMLElement {
       sectionElement.innerHTML = this.getSectionInnerHTML(parsedState.sections[section.id], section.selector);
     });
 
+    // Open drawer immediately without waiting for recommendations
     setTimeout(() => {
       this.querySelector('#CartDrawer-Overlay').addEventListener('click', this.close.bind(this));
       this.open();
@@ -96,12 +97,20 @@ class CartDrawer extends HTMLElement {
   getSectionsToRender() {
     return [
       {
-        id: 'cart-drawer',
-        selector: '#CartDrawer',
+        id: 'CartDrawer',
+        section: 'cart-drawer',
+        selector: '.drawer__inner',
       },
       {
         id: 'cart-icon-bubble',
+        section: 'cart-icon-bubble',
+        selector: '.shopify-section',
       },
+      {
+        id: 'CartDrawer-Upskill',
+        section: 'cart-drawer-upskill',
+        selector: '.cart-drawer-upskill'
+      }
     ];
   }
 
@@ -129,6 +138,11 @@ class CartDrawerItems extends CartItems {
         section: 'cart-icon-bubble',
         selector: '.shopify-section',
       },
+      {
+        id: 'CartDrawer-Upskill',
+        section: 'cart-drawer-upskill',
+        selector: '.cart-drawer-upskill'
+      }
     ];
   }
 }

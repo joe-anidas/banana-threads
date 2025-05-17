@@ -40,7 +40,7 @@
     margin-right: 0 !important; /* Remove any horizontal margin */
     margin-bottom: 5px; /* Space between stacked links */
   }
-  .newsletter-form__field-wrapper .field__input {
+  .newsletter-form__field-wrapper1 .field__input1 {
     padding: 1rem;
 }
   
@@ -69,18 +69,18 @@
 
 
 /* Newsletter Form Styling */
-.newsletter-form__field-wrapper {
+.newsletter-form__field-wrapper1 {
   display: flex;
   gap: 0px;
   width: 100%;
   align-items: center;
 }
 
-.field {
+.field1 {
   flex: 1;
 }
 
-.field__input {
+.field__input1 {
   width: 100%;
   height: 45px;
  
@@ -91,7 +91,7 @@
 }
 
 /* Remove required field asterisk */
-.field__input:required {
+.field__input1:required {
   box-shadow: none;
 }
 
@@ -126,12 +126,12 @@
     font-size: 22px !important;
   }
   
-  .newsletter-form__field-wrapper {
+  .newsletter-form__field-wrapper1 {
     flex-direction: column !important;
     gap: 15px !important;
   }
   
-  .field__input,
+  .field__input1,
   .footer-block__cta {
     height: 45px !important;
     width: 100% !important;
@@ -156,7 +156,7 @@
     font-size: 20px;
 }
 
-.footer-block__newsletter .field__input {
+.footer-block__newsletter .field__input1{
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
 }
@@ -323,11 +323,11 @@
 }
 
 
-.field {
+.field1 {
     width: 100%;
 }
 
-.field__input {
+.field__input1 {
     width: 110%;
     height: 55px;
    
@@ -370,7 +370,7 @@
     }
     
    
-    .field__input,
+    .field__input1,
     .footer-block__cta {
         height: 45px !important;
         width: 100% !important;

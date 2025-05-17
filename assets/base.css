@@ -2,12 +2,11 @@
   --alpha-button-background: 1;
   --alpha-button-border: 1;
   --alpha-link: 0.85;
-
+  --alpha-badge-border: 0.1;
   --focused-base-outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
   --focused-base-outline-offset: 0.3rem;
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
-
 
 .product-card-wrapper .card,
 .contains-card--product {
@@ -496,6 +495,9 @@ h6:empty {
   font-family: inherit;
 }
 
+.link--text {
+  color: rgb(var(--color-foreground));
+}
 
 .link--text:hover {
   color: rgba(var(--color-foreground), 0.75);
@@ -703,6 +705,66 @@ summary::-webkit-details-marker {
   width: 100%;
 }
 
+/* base-focus */
+/*
+  Focus ring - default (with offset)
+*/
+
+*:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+*:focus-visible {
+  outline: var(--focused-base-outline);
+  outline-offset: var(--focused-base-outline-offset);
+  box-shadow: var(--focused-base-box-shadow);
+}
+
+/* Fallback - for browsers that don't support :focus-visible, a fallback is set for :focus */
+.focused {
+  outline: var(--focused-base-outline);
+  outline-offset: var(--focused-base-outline-offset);
+  box-shadow: var(--focused-base-box-shadow);
+}
+
+/*
+  Focus ring - inset
+*/
+
+.focus-inset:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  outline-offset: -0.2rem;
+  box-shadow: 0 0 0.2rem 0 rgba(var(--color-foreground), 0.3);
+}
+
+.focused.focus-inset {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  outline-offset: -0.2rem;
+  box-shadow: 0 0 0.2rem 0 rgba(var(--color-foreground), 0.3);
+}
+
+/*
+  Focus ring - none
+*/
+
+/* Dangerous for a11y - Use with care */
+.focus-none {
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.focus-offset:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  outline-offset: 1rem;
+  box-shadow: 0 0 0 1rem rgb(var(--color-background)), 0 0 0.2rem 1.2rem rgba(var(--color-foreground), 0.3);
+}
+
+.focus-offset.focused {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  outline-offset: 1rem;
+  box-shadow: 0 0 0 1rem rgb(var(--color-background)), 0 0 0.2rem 1.2rem rgba(var(--color-foreground), 0.3);
+}
 
 /* component-title */
 .title,
@@ -1636,9 +1698,65 @@ details[open] > .share-button__fallback {
 
 /* Field */
 
+.field {
+  position: relative;
+  width: 100%;
+  display: flex;
+  transition: box-shadow var(--duration-short) ease;
+}
 
+.customer .field {
+  display: flex;
+}
 
+.field--with-error {
+  flex-wrap: wrap;
+}
 
+.field__input,
+.customer .field input {
+  flex-grow: 1;
+  text-align: left;
+  padding: 1.5rem;
+  margin: var(--inputs-border-width);
+  transition: box-shadow var(--duration-short) ease;
+}
+
+.field__label,
+.customer .field label {
+  font-size: 1.6rem;
+  left: calc(var(--inputs-border-width) + 2rem);
+  top: calc(1rem + var(--inputs-border-width));
+  margin-bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: top var(--duration-short) ease, font-size var(--duration-short) ease;
+  color: rgba(var(--color-foreground), 0.75);
+  letter-spacing: 0.1rem;
+  line-height: 1.5;
+}
+
+.field__input:focus ~ .field__label,
+.field__input:not(:placeholder-shown) ~ .field__label,
+.field__input:-webkit-autofill ~ .field__label,
+.customer .field input:focus ~ label,
+.customer .field input:not(:placeholder-shown) ~ label,
+.customer .field input:-webkit-autofill ~ label {
+  font-size: 1rem;
+  top: calc(var(--inputs-border-width) + 0.5rem);
+  left: calc(var(--inputs-border-width) + 2rem);
+  letter-spacing: 0.04rem;
+}
+
+.field__input:focus,
+.field__input:not(:placeholder-shown),
+.field__input:-webkit-autofill,
+.customer .field input:focus,
+.customer .field input:not(:placeholder-shown),
+.customer .field input:-webkit-autofill {
+  padding: 2.2rem 1.5rem 0.8rem 2rem;
+  margin: var(--inputs-border-width);
+}
 
 .field__input::-webkit-search-cancel-button,
 .customer .field input::-webkit-search-cancel-button {
@@ -2674,11 +2792,9 @@ details[open] > .header__submenu {
 }
 
 .header__menu-item {
-  padding: 1.5rem;
-  font-size: 18px;
-  font-weight: 700;
+  padding: 1.2rem;
   text-decoration: none;
- 
+  color: rgba(var(--color-foreground), 0.75);
 }
 
 .header__menu-item:hover {
@@ -3494,21 +3610,7 @@ details-disclosure > details {
   z-index: 10;
 }
 
-/* Header Menu Hover Effect */
-.header__menu-item.list-menu__item.list-menu__item--link {
-  transition: color 0.3s ease;
-}
 
-.header__menu-item.list-menu__item.list-menu__item--link:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-}
-/* Force the hover color */
-.header-wrapper .header__inline-menu .header__menu-item:hover,
-.header-wrapper .header__inline-menu .header__menu-item.list-menu__item--link:hover {
-  color: #DCB301 !important;
-}
-/* Mobile menu hover */
-.menu-drawer__menu-item:hover {
-  color: #DCB301 !important;
-}
+
+
+

@@ -30,7 +30,7 @@
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
     }
-    
+
 .button--secondary {
     --color-button: 255, 255, 255; /* White background (RGB for #FFFFFF) */
     --color-button-text: 145, 77, 255; /* Purple text (RGB for #914dff) */
@@ -303,14 +303,14 @@
   gap: 15px;
   flex-wrap: wrap;
   margin-bottom: 20px;
+  position: relative;
 }
 
-/* Size Chart Button Alignment */
-.size-chart-opener {
-
- position: relative;
-  bottom: 10px; 
-
+.size-chart-floating {
+  position: absolute;
+  top: -32px;
+  right: 40px;
+  z-index: 5;
 }
 
 .size-chart-button {
@@ -322,7 +322,7 @@
   text-decoration: underline;
   background: none;
   border: none;
-  padding: 8px 0;
+  padding: 27px 0;
 }
 
 .size-chart-button .icon-wrapper {
@@ -768,7 +768,17 @@
                     | item_count_for_variant: product.selected_or_first_available_variant.id
                   -%}
                   {% # theme-check-enable %}
-                                    <label class="quantity__label form__label" for="Quantity-{{ section.id }}">                    {{ 'products.product.quantity.label' | t }}                                   </label>
+                  <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
+                    {{ 'products.product.quantity.label' | t }}
+                    <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}">
+                      {%- render 'loading-spinner' -%}
+                      <span
+                        >(
+                        {{- 'products.product.quantity.in_cart_html' | t: quantity: cart_qty -}}
+                        )</span
+                      >
+                    </span>
+                  </label>
                   <div class="price-per-item__container">
                     <quantity-input class="quantity" data-url="{{ product.url }}" data-section="{{ section.id }}">
                       <button class="quantity__button" name="minus" type="button">
@@ -780,7 +790,20 @@
                         </span>
                       </button>
                       <input
-                          class="quantity__input"                          type="number"                          name="quantity"                          id="Quantity-{{ section.id }}"                          data-cart-quantity="{{ cart_qty }}"                          data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"                          min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"                          data-max="4"                          max="4"                          step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"                          value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"                          form="{{ product_form_id }}"
+                        class="quantity__input"
+                        type="number"
+                        name="quantity"
+                        id="Quantity-{{ section.id }}"
+                        data-cart-quantity="{{ cart_qty }}"
+                        data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                        min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                        {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
+                          data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                          max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                        {% endif %}
+                        step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
+                        value="1"
+                        form="{{ product_form_id }}"
                       >
                       <button class="quantity__button" name="plus" type="button">
                         <span class="visually-hidden">
@@ -969,8 +992,8 @@
                 %}
 {%- when 'variant_picker' -%}
   <div class="variant-picker-container">
-                  {%- if product.options contains 'Size' -%}
-               <modal-opener class="size-chart-opener" data-modal="#PopupModal-size-chart">
+    {%- if product.options contains 'Size' -%}
+      <modal-opener class="size-chart-floating" data-modal="#PopupModal-size-chart">
         <button type="button" class="size-chart-button link">
           Size Chart
           <span class="icon-wrapper">
@@ -978,9 +1001,7 @@
           </span>
         </button>
       </modal-opener>
-    {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
-
-    
+      {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
     {%- endif -%}
   </div>
 
@@ -1593,24 +1614,169 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Fix for quantity selector with cart quantities over limit
-  function updateCartQuantityDisplay() {
-    const cartQtySpans = document.querySelectorAll('.quantity__rules-cart span');
-    cartQtySpans.forEach(span => {
-      const cartQtyText = span.innerText;
-      if (cartQtyText) {
-        // Ensure the cart quantity display is not affected by the input max="4" limit
-        // but still shows the actual quantity in cart, even if greater than 4
-        span.style.display = 'inline';
-      }
+  // Setup add to cart event listener for immediate cart updates
+  const addToCartButton = document.querySelector('button[name="add"]');
+  if (addToCartButton) {
+    addToCartButton.addEventListener('click', function() {
+      // Try multiple times with increasing delays
+      [500, 1000, 2000].forEach(delay => {
+        setTimeout(refreshCartIndicator, delay);
+      });
     });
   }
   
-  // Run once on page load
-  updateCartQuantityDisplay();
+  // Improved function to refresh the cart indicator
+  function refreshCartIndicator() {
+    fetch('/cart.js')
+      .then(response => response.json())
+      .then(cart => {
+        // Get the current product variant ID
+        const variantId = document.querySelector('[name="id"]').value;
+        
+        // Find matching item in cart
+        const item = cart.items.find(item => item.variant_id == variantId);
+        const quantity = item ? item.quantity : 0;
+        
+        // Find and update all quantity indicators
+        document.querySelectorAll('.quantity__rules-cart').forEach(container => {
+          const span = container.querySelector('span');
+          if (span) {
+            if (quantity > 0) {
+              span.textContent = `(${quantity} in cart)`;
+              container.classList.remove('hidden');
+            } else {
+              container.classList.add('hidden');
+            }
+          }
+        });
+        
+        // Update data attributes on quantity inputs
+        document.querySelectorAll('.quantity__input').forEach(input => {
+          input.setAttribute('data-cart-quantity', quantity);
+        });
+      })
+      .catch(error => console.error('Error fetching cart:', error));
+  }
+  
+  // Call on page load
+  setTimeout(refreshCartIndicator, 500);
   
   // Run whenever the quantity in cart might change
-  document.addEventListener('cart:update', updateCartQuantityDisplay);
+  document.addEventListener('cart:update', function() {
+    setTimeout(refreshCartIndicator, 500);
+  });
+
+  // Add input event listener to ensure value stays valid
+  const quantityInput = document.querySelector('.quantity__input');
+  if (quantityInput) {
+    quantityInput.addEventListener('input', function() {
+      const value = parseInt(this.value);
+      const max = parseInt(this.getAttribute('max'));
+      const cartQty = parseInt(this.getAttribute('data-cart-quantity') || 0);
+      
+      // Ensure value is at least 1 and doesn't exceed max
+      if (value < 1) {
+        this.value = 1;
+      } else if (value > max) {
+        this.value = max;
+      }
+    });
+  }
+
+  // Limit quantity to 4 for UI purposes - disable plus button at 4
+  function setupQuantityLimits() {
+    const quantityContainers = document.querySelectorAll('quantity-input');
+    
+    quantityContainers.forEach(container => {
+      const input = container.querySelector('.quantity__input');
+      const plusButton = container.querySelector('button[name="plus"]');
+      
+      // Initial check
+      if (parseInt(input.value) >= 4) {
+        plusButton.disabled = true;
+        plusButton.style.opacity = '0.5';
+        plusButton.style.cursor = 'not-allowed';
+      }
+      
+      // Add event listeners
+      input.addEventListener('change', function() {
+        checkQuantity(input, plusButton);
+      });
+      
+      input.addEventListener('input', function() {
+        checkQuantity(input, plusButton);
+      });
+      
+      plusButton.addEventListener('click', function() {
+        setTimeout(function() {
+          checkQuantity(input, plusButton);
+        }, 10);
+      });
+      
+      container.querySelector('button[name="minus"]').addEventListener('click', function() {
+        setTimeout(function() {
+          checkQuantity(input, plusButton);
+        }, 10);
+      });
+    });
+  }
+  
+  function checkQuantity(input, plusButton) {
+    const value = parseInt(input.value);
+    if (value >= 4) {
+      plusButton.disabled = true;
+      plusButton.style.opacity = '0.5';
+      plusButton.style.cursor = 'not-allowed';
+    } else {
+      plusButton.disabled = false;
+      plusButton.style.opacity = '1';
+      plusButton.style.cursor = 'pointer';
+    }
+  }
+  
+  // Reset quantity after add to cart
+  function setupAddToCartReset() {
+    const addToCartButton = document.querySelector('button[name="add"]');
+    if (addToCartButton) {
+      addToCartButton.addEventListener('click', function() {
+        // Wait for the cart to update before resetting
+        setTimeout(function() {
+          const quantityContainers = document.querySelectorAll('quantity-input');
+          quantityContainers.forEach(container => {
+            const input = container.querySelector('.quantity__input');
+            const plusButton = container.querySelector('button[name="plus"]');
+            const minusButton = container.querySelector('button[name="minus"]');
+            
+            // Reset to 1
+            input.value = 1;
+            
+            // Re-enable plus button
+            plusButton.disabled = false;
+            plusButton.style.opacity = '1';
+            plusButton.style.cursor = 'pointer';
+            
+            // Ensure minus button works properly with minimum values
+            const min = parseInt(input.getAttribute('min') || 1);
+            if (min > 1) {
+              minusButton.disabled = false;
+              minusButton.style.opacity = '1';
+              minusButton.style.cursor = 'pointer';
+            }
+          });
+        }, 500); // Half second delay to ensure cart update is processed
+      });
+    }
+  }
+  
+  // Setup quantity limits on page load
+  setupQuantityLimits();
+  setupAddToCartReset();
+  
+  // Setup when sections refresh
+  document.addEventListener('shopify:section:load', function(event) {
+    setupQuantityLimits();
+    setupAddToCartReset();
+  });
 });
 </script>
 
@@ -3006,7 +3172,7 @@ document.addEventListener('DOMContentLoaded', function() {
           "label": "t:sections.main-product.settings.media_size.options__3.label"
         }
       ],
-      "default": "large",
+      "default": "small",
       "label": "t:sections.main-product.settings.media_size.label"
     },
     {

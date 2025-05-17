@@ -7,9 +7,11 @@
 
 {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'cart-drawer-upskill.css' | asset_url | stylesheet_tag }}
 
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'cart-drawer-upskill.js' | asset_url }}" defer="defer"></script>
 
 <style>
   .drawer {
@@ -454,6 +456,14 @@
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
       </cart-drawer-items>
+
+      <!-- Upskill product recommendations -->
+      {%- if cart != empty -%}
+        <cart-drawer-upskill class="cart-drawer-upskill" id="CartDrawer-Upskill">
+          {% section 'cart-drawer-upskill' %}
+        </cart-drawer-upskill>
+      {%- endif -%}
+      
       <div class="drawer__footer">
         {%- if settings.show_cart_note -%}
           <details id="Details-CartDrawer">

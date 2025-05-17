@@ -17,7 +17,30 @@
 {%- endif -%}
 
 <style>
+/* Header Menu Hover Effect */
+.header__menu-item.list-menu__item.list-menu__item--link {
+  transition: color 0.3s ease;
+}
 
+.header__menu-item.list-menu__item.list-menu__item--link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+/* Force the hover color */
+.header-wrapper .header__inline-menu .header__menu-item:hover,
+.header-wrapper .header__inline-menu .header__menu-item.list-menu__item--link:hover {
+  color: #DCB301 !important;
+}
+/* Mobile menu hover */
+.menu-drawer__menu-item:hover {
+  color: #DCB301 !important;
+}.header__menu-item {
+  padding: 1.5rem;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+ 
+}
   header-drawer {
     justify-self: start;
     margin-left: -1.2rem;
