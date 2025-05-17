@@ -61,10 +61,7 @@
     top: 0;
     left: 0;
 }
-    /* Quantity Selector - Limit to 4 */
-.quantity__input[type="number"] {
-  max: 4;
-}
+    /* Quantity Selector - Limit to 4 */.quantity__input[type="number"] {  /* max-value set via HTML attributes max and data-max */}
 
 /* Variant Picker Container - Side by Side Layout */
 .variant-picker-container {
@@ -188,23 +185,23 @@
 }
 /* Size Chart Modal Styles */
 .size-chart-modal .product-popup-modal__content {
-  max-width: 900px;
-  padding: 30px;
+  max-width: 700px;
+  padding: 20px;
 }
 
 .size-chart-container {
   display: flex;
-  gap: 30px;
+  gap: 20px;
 }
 
 .size-chart-image {
-  flex: 1; /* Reduced from 1 to 0.4 to make it smaller */
-  min-width: 350px; /* Reduced from 300px */
-  max-width: 400px; /* Added max-width to constrain size */
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
 }
 
 .size-chart-image img {
-  width: 80%;
+  width: 100%;
   height: auto;
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -212,7 +209,35 @@
 
 .size-chart-table {
   flex: 1;
-  min-width: 400px;
+  min-width: 250px;
+}
+
+.size-note {
+  color: #914dff;
+  font-size: 14px;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.size-tabs {
+  display: flex;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.size-tab {
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #666;
+  border-bottom: 2px solid transparent;
+}
+
+.size-tab.active {
+  color: #914dff;
+  border-bottom: 2px solid #914dff;
 }
 
 .size-table-wrapper {
@@ -222,13 +247,19 @@
 .size-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 15px;
+  margin-top: 5px;
+  display: none;
+}
+
+.size-table.active {
+  display: table;
 }
 
 .size-table th, .size-table td {
-  padding: 12px 15px;
+  padding: 10px 12px;
   text-align: center;
   border: 1px solid #e0e0e0;
+  font-size: 14px;
 }
 
 .size-table th {
@@ -244,15 +275,24 @@
   background-color: #f1f1f1;
 }
 
-/* Responsive styles */
 @media screen and (max-width: 750px) {
+  .size-chart-modal .product-popup-modal__content {
+    max-width: 95%;
+    padding: 15px;
+  }
+  
   .size-chart-container {
     flex-direction: column;
   }
   
   .size-chart-image {
-    max-width: 250px; /* Even smaller on mobile */
-    margin: 0 auto; /* Center the image on mobile */
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  
+  .size-table th, .size-table td {
+    padding: 8px;
+    font-size: 12px;
   }
 }
     /* Variant Picker Container */
@@ -310,6 +350,167 @@
   flex: 1;
   min-width: 60%;
 }
+
+/* New Product Gallery Styles */
+.product-gallery-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.main-image-slider {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.main-image-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.main-image-slide {
+  min-width: 100%;
+  position: relative;
+}
+
+.main-image-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.gallery-prev-button,
+.gallery-next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-prev-button {
+  left: 10px;
+}
+
+.gallery-next-button {
+  right: 10px;
+}
+
+.gallery-prev-button svg,
+.gallery-next-button svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Thumbnail Container */
+.thumbnail-container {
+  margin-top: 15px;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  padding-bottom: 10px;
+}
+
+.thumbnail-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.thumbnail-track {
+  display: flex;
+  gap: 10px;
+}
+
+.thumbnail {
+  min-width: 60px;
+  max-width: 80px;
+  height: 60px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.thumbnail.active {
+  border-color: #914dff;
+  opacity: 1;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+/* Pagination Dots */
+.gallery-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.pagination-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-dot.active {
+  background-color: #914dff;
+  transform: scale(1.2);
+}
+
+/* Mobile Adjustments */
+@media screen and (max-width: 749px) {
+  .gallery-prev-button,
+  .gallery-next-button {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .pagination-dot {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* 3D Model and Video Styles */
+.product-gallery-container model-viewer,
+.product-gallery-container video,
+.product-gallery-container iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.zoom-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.zoom-container img {
+  transition: transform 0.3s ease;
+}
+
+.zoom-container:hover img {
+  transform: scale(1.2);
+}
   {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
@@ -349,7 +550,61 @@
 <div class="page-width">
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
       <div class="grid__item product__media-wrapper">
-        {% render 'product-media-gallery', variant_images: variant_images %}
+        <!-- Custom horizontally scrollable product gallery -->
+        <div class="product-gallery-container">
+          <div class="main-image-slider">
+            <div class="main-image-track">
+              {% for media in product.media %}
+                <div class="main-image-slide" data-index="{{ forloop.index0 }}">
+                  {% if media.media_type == 'image' %}
+                    <img 
+                      srcset="{%- if media.width >= 493 -%}{{ media | image_url: width: 493 }} 493w,{%- endif -%}
+                        {%- if media.width >= 600 -%}{{ media | image_url: width: 600 }} 600w,{%- endif -%}
+                        {%- if media.width >= 713 -%}{{ media | image_url: width: 713 }} 713w,{%- endif -%}
+                        {%- if media.width >= 823 -%}{{ media | image_url: width: 823 }} 823w,{%- endif -%}
+                        {%- if media.width >= 990 -%}{{ media | image_url: width: 990 }} 990w,{%- endif -%}
+                        {%- if media.width >= 1100 -%}{{ media | image_url: width: 1100 }} 1100w,{%- endif -%}
+                        {%- if media.width >= 1206 -%}{{ media | image_url: width: 1206 }} 1206w,{%- endif -%}
+                        {%- if media.width >= 1346 -%}{{ media | image_url: width: 1346 }} 1346w,{%- endif -%}
+                        {%- if media.width >= 1426 -%}{{ media | image_url: width: 1426 }} 1426w,{%- endif -%}
+                        {%- if media.width >= 1646 -%}{{ media | image_url: width: 1646 }} 1646w,{%- endif -%}
+                        {%- if media.width >= 1946 -%}{{ media | image_url: width: 1946 }} 1946w,{%- endif -%}
+                        {{ media | image_url }} {{ media.width }}w"
+                      src="{{ media | image_url: width: 990 }}"
+                      sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 990px) calc((100vw - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                      loading="lazy"
+                      width="{{ media.width }}"
+                      height="{{ media.height }}"
+                      alt="{{ media.alt | escape }}"
+                      class="product-gallery-image"
+                    >
+                  {% else %}
+                    {% render 'product-media', media: media, position: forloop.index, loop: section.settings.enable_video_looping %}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          
+          <!-- Navigation Arrows -->
+          <button type="button" class="gallery-prev-button" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 18L9 12L15 6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button type="button" class="gallery-next-button" aria-label="Next image">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 6L15 12L9 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          
+          <!-- Pagination Dots -->
+          <div class="gallery-pagination">
+            {% for media in product.media %}
+              <div class="pagination-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Go to image {{ forloop.index }}"></div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
       <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <section
@@ -513,17 +768,7 @@
                     | item_count_for_variant: product.selected_or_first_available_variant.id
                   -%}
                   {% # theme-check-enable %}
-                  <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
-                    {{ 'products.product.quantity.label' | t }}
-                    <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}">
-                      {%- render 'loading-spinner' -%}
-                      <span
-                        >(
-                        {{- 'products.product.quantity.in_cart_html' | t: quantity: cart_qty -}}
-                        )</span
-                      >
-                    </span>
-                  </label>
+                                    <label class="quantity__label form__label" for="Quantity-{{ section.id }}">                    {{ 'products.product.quantity.label' | t }}                                   </label>
                   <div class="price-per-item__container">
                     <quantity-input class="quantity" data-url="{{ product.url }}" data-section="{{ section.id }}">
                       <button class="quantity__button" name="minus" type="button">
@@ -535,20 +780,7 @@
                         </span>
                       </button>
                       <input
-                        class="quantity__input"
-                        type="number"
-                        name="quantity"
-                        id="Quantity-{{ section.id }}"
-                        data-cart-quantity="{{ cart_qty }}"
-                        data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                        min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                        {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
-                          data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
-                          max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
-                        {% endif %}
-                        step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
-                        value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
-                        form="{{ product_form_id }}"
+                          class="quantity__input"                          type="number"                          name="quantity"                          id="Quantity-{{ section.id }}"                          data-cart-quantity="{{ cart_qty }}"                          data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"                          min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"                          data-max="4"                          max="4"                          step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"                          value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"                          form="{{ product_form_id }}"
                       >
                       <button class="quantity__button" name="plus" type="button">
                         <span class="visually-hidden">
@@ -1019,7 +1251,7 @@
       <div class="size-chart-image">
         {% comment %} Google Drive Image - converted to direct link {% endcomment %}
         {% assign drive_image = 'https://images.bewakoof.com/sizeguide/men-half-sleeves-tshirts-1484025744-1623075051.jpg' %}
-        <img src="{{ drive_image }}" alt="Size Guide Visualization" loading="lazy" class="size-guide-visual">
+        <img src="{{ drive_image }}" alt="Size Guide Visualization" loading="lazy" class="size-guide-visual" width="400" height="300">
       </div>
       
       <div class="size-chart-table">
@@ -1119,22 +1351,23 @@
 <style>
   /* Size Chart Modal Styles */
   .size-chart-modal .product-popup-modal__content {
-    max-width: 900px;
-    padding: 30px;
+    max-width: 700px;
+    padding: 20px;
   }
 
   .size-chart-container {
     display: flex;
-    gap: 30px;
+    gap: 20px;
   }
 
   .size-chart-image {
     flex: 1;
-    min-width: 300px;
+    min-width: 200px;
+    max-width: 250px;
   }
 
   .size-chart-image img {
-    width: 80%;
+    width: 100%;
     height: auto;
     border-radius: 4px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -1142,7 +1375,7 @@
 
   .size-chart-table {
     flex: 1;
-    min-width: 300px;
+    min-width: 250px;
   }
 
   .size-note {
@@ -1189,9 +1422,10 @@
   }
 
   .size-table th, .size-table td {
-    padding: 12px 15px;
+    padding: 10px 12px;
     text-align: center;
     border: 1px solid #e0e0e0;
+    font-size: 14px;
   }
 
   .size-table th {
@@ -1208,13 +1442,23 @@
   }
 
   @media screen and (max-width: 750px) {
+    .size-chart-modal .product-popup-modal__content {
+      max-width: 95%;
+      padding: 15px;
+    }
+    
     .size-chart-container {
       flex-direction: column;
     }
     
     .size-chart-image {
-      max-width: 250px; /* Even smaller on mobile */
-      margin: 0 auto; /* Center the image on mobile */
+      max-width: 200px;
+      margin: 0 auto;
+    }
+    
+    .size-table th, .size-table td {
+      padding: 8px;
+      font-size: 12px;
     }
   }
 </style>
@@ -1223,20 +1467,150 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Tab switching functionality
   const tabs = document.querySelectorAll('.size-tab');
+  const tables = document.querySelectorAll('.size-table');
+  
+  // Make sure only inches table is visible by default
+  tables.forEach(table => {
+    table.classList.remove('active');
+    if(table.dataset.unit === 'inches') {
+      table.classList.add('active');
+    }
+  });
+  
   tabs.forEach(tab => {
     tab.addEventListener('click', function() {
-      // Remove active class from all tabs and tables
-      document.querySelectorAll('.size-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.size-table').forEach(t => t.classList.remove('active'));
+      // Remove active class from all tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      
+      // Remove active class from all tables
+      tables.forEach(t => t.classList.remove('active'));
       
       // Add active class to clicked tab
       this.classList.add('active');
       
       // Show corresponding table
       const unit = this.dataset.unit;
-      document.querySelector(`.size-table[data-unit="${unit}"]`).classList.add('active');
+      const selectedTable = document.querySelector(`.size-table[data-unit="${unit}"]`);
+      if (selectedTable) {
+        selectedTable.classList.add('active');
+      }
     });
   });
+  
+  // Product Gallery Functionality
+  const initProductGallery = () => {
+    const mainTrack = document.querySelector('.main-image-track');
+    const paginationDots = document.querySelectorAll('.pagination-dot');
+    const prevButton = document.querySelector('.gallery-prev-button');
+    const nextButton = document.querySelector('.gallery-next-button');
+    
+    if (!mainTrack || paginationDots.length === 0) return;
+    
+    let currentSlide = 0;
+    const slideCount = paginationDots.length;
+    
+    // Function to update the gallery position
+    const updateGallery = (index) => {
+      // Ensure index is within valid range
+      if (index < 0) index = slideCount - 1;
+      if (index >= slideCount) index = 0;
+      
+      currentSlide = index;
+      
+      // Update main image position
+      mainTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      // Update active pagination dot
+      paginationDots.forEach((dot, i) => {
+        if (i === currentSlide) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    };
+    
+    // Set up pagination dot click events
+    paginationDots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        updateGallery(index);
+      });
+    });
+    
+    // Set up navigation button events
+    prevButton.addEventListener('click', () => {
+      updateGallery(currentSlide - 1);
+    });
+    
+    nextButton.addEventListener('click', () => {
+      updateGallery(currentSlide + 1);
+    });
+    
+    // Touch swipe functionality for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    const checkDirection = () => {
+      if (touchEndX < touchStartX) {
+        // Swiped left
+        updateGallery(currentSlide + 1);
+      }
+      if (touchEndX > touchStartX) {
+        // Swiped right
+        updateGallery(currentSlide - 1);
+      }
+    };
+    
+    mainTrack.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    mainTrack.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      checkDirection();
+    }, false);
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        updateGallery(currentSlide - 1);
+      } else if (e.key === 'ArrowRight') {
+        updateGallery(currentSlide + 1);
+      }
+    });
+    
+    // Initialize with first slide
+    updateGallery(0);
+  };
+  
+  // Initialize the gallery
+  initProductGallery();
+  
+  // Re-initialize on Shopify section refresh
+  document.addEventListener('shopify:section:load', function(event) {
+    if (event.detail.sectionId.includes('main-product')) {
+      initProductGallery();
+    }
+  });
+
+  // Fix for quantity selector with cart quantities over limit
+  function updateCartQuantityDisplay() {
+    const cartQtySpans = document.querySelectorAll('.quantity__rules-cart span');
+    cartQtySpans.forEach(span => {
+      const cartQtyText = span.innerText;
+      if (cartQtyText) {
+        // Ensure the cart quantity display is not affected by the input max="4" limit
+        // but still shows the actual quantity in cart, even if greater than 4
+        span.style.display = 'inline';
+      }
+    });
+  }
+  
+  // Run once on page load
+  updateCartQuantityDisplay();
+  
+  // Run whenever the quantity in cart might change
+  document.addEventListener('cart:update', updateCartQuantityDisplay);
 });
 </script>
 
