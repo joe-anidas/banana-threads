@@ -8,10 +8,10 @@
     flex: 1;
     min-width: 200px;
     margin-bottom: 20px;
- 
+    display: flex;
     flex-direction: column;
-    align-items: left; /* This centers all content horizontally */
-    text-align: left; /* This centers the text */
+    align-items: flex-start; /* Correctly align items to left */
+    text-align: left;
 }
 
 /* Links Styling - Make click area fit content */
@@ -19,7 +19,6 @@
     display: flex;
     flex-direction: column;
     gap: 3px;
-    margin-bottom: 20px;
     margin-left: 0; /* Remove the left margin */
     width: auto; /* Let the width be determined by content */
 }
@@ -28,17 +27,23 @@
     padding: 5px 0; /* Add some vertical padding for better click area */
     display: inline-block; /* Make the click area only as wide as the text */
     text-align: left; /* Center the text */
-}.footer-block__links {
+ /* Default spacing between links */
+}
+
+/* Add this class to the policy links that need separation */
+.footer-block__links a.policy-link {
+  /* Increased spacing for policy links */
+}
+
+.footer-block__links {
     display: block !important; /* Removes flex to avoid full-width links */
-    margin-left: 40px; /* Keeps your existing left margin */
-  }
+}
   
   .footer-block__links a {
     display: block !important; /* Each link on a new line (column layout) */
     width: fit-content !important; /* Only takes space needed for text */
     padding: 2px 0 !important; /* Small vertical spacing (optional) */
-    margin-right: 0 !important; /* Remove any horizontal margin */
-    margin-bottom: 5px; /* Space between stacked links */
+     /* Space between stacked links */
   }
   .newsletter-form__field-wrapper1 .field__input1 {
     padding: 1rem;
@@ -139,6 +144,25 @@
   
   .footer-block__cta {
     margin-left: 0 !important;
+  }
+  
+  .footer-block--left {
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .footer-block__links {
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    margin-left: 0;
+  }
+  
+  .footer-block__links a {
+    text-align: center;
+    margin-bottom: 5px;
   }
 }
 
@@ -355,7 +379,7 @@
 
 @media screen and (max-width: 749px) {
     .footer-block__links {
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: wrap;
         gap: 15px;
     }
@@ -377,6 +401,10 @@
     }
     
     .footer-block__cta {
-        max-width: 100% !important;
+        max-width: 40% !important;
+    }
+    .footer-block--left {
+      
+        align-items: center;
     }
 }

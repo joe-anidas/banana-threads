@@ -294,6 +294,16 @@
     padding: 8px;
     font-size: 12px;
   }
+  
+  /* Ensure tables don't show simultaneously on mobile */
+  .size-table {
+    display: none !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .size-table.active {
+    display: table !important;    margin-bottom: 20px !important;
+  }
 }
     /* Variant Picker Container */
 .variant-picker-container {
@@ -1481,6 +1491,16 @@
       padding: 8px;
       font-size: 12px;
     }
+    
+    /* Ensure tables don't show simultaneously on mobile */
+    .size-table {
+      display: none !important;
+      margin-bottom: 10px !important;
+    }
+    
+    .size-table.active {
+      display: table !important;
+    }
   }
 </style>
 
@@ -1490,31 +1510,46 @@ document.addEventListener('DOMContentLoaded', function() {
   const tabs = document.querySelectorAll('.size-tab');
   const tables = document.querySelectorAll('.size-table');
   
-  // Make sure only inches table is visible by default
-  tables.forEach(table => {
-    table.classList.remove('active');
-    if(table.dataset.unit === 'inches') {
-      table.classList.add('active');
+  function hideAllTables() {
+    tables.forEach(table => {
+      table.style.display = 'none';
+      table.classList.remove('active');
+    });
+  }
+  
+  function showTable(unit) {
+    const tableToShow = document.querySelector(`.size-table[data-unit="${unit}"]`);
+    if (tableToShow) {
+      tableToShow.style.display = 'table';
+      tableToShow.classList.add('active');
+    }
+  }
+  
+  // Initialize - hide all tables and show inches by default
+  hideAllTables();
+  showTable('inches');
+  
+  // Make inches tab active by default
+  tabs.forEach(tab => {
+    tab.classList.remove('active');
+    if(tab.dataset.unit === 'inches') {
+      tab.classList.add('active');
     }
   });
   
+  // Set up tab click handlers
   tabs.forEach(tab => {
-    tab.addEventListener('click', function() {
-      // Remove active class from all tabs
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Update active tab styling
       tabs.forEach(t => t.classList.remove('active'));
-      
-      // Remove active class from all tables
-      tables.forEach(t => t.classList.remove('active'));
-      
-      // Add active class to clicked tab
       this.classList.add('active');
       
-      // Show corresponding table
+      // Hide all tables and show the selected one
       const unit = this.dataset.unit;
-      const selectedTable = document.querySelector(`.size-table[data-unit="${unit}"]`);
-      if (selectedTable) {
-        selectedTable.classList.add('active');
-      }
+      hideAllTables();
+      showTable(unit);
     });
   });
   

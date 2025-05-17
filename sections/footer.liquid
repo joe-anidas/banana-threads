@@ -1,6 +1,7 @@
 {% comment %}theme-check-disable UndefinedObject{% endcomment %}
 
 {{ '1footer.css' | asset_url | stylesheet_tag }}
+{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
  
@@ -97,6 +98,19 @@
         {{ section.settings.newsletter_button | default: "Yes, I'm In" }}
       </button>
     </div>
+    
+    {%- if form.errors -%}
+      <small class="newsletter-form__message form__message" id="ContactFooter-error">
+        {{ form.errors.translated_fields.email | capitalize }}
+        {{ form.errors.messages.email }}
+      </small>
+    {%- endif -%}
+    
+    {%- if form.posted_successfully? -%}
+      <div class="newsletter-form__message newsletter-form__message--success" id="ContactFooter-success" tabindex="-1" autofocus>
+        Thanks for subscribing
+      </div>
+    {%- endif -%}
   {%- endform -%}
   
 <div class="footer-block__social">
