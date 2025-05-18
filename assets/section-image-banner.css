@@ -532,7 +532,7 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 padding: 20px 40px !important;      /* Increased size */
   font-size: 25px !important;  
-    top: -25px;    
+    top: -18px;    
 }
 
 /* Hover effect: reverse colors */
@@ -550,7 +550,7 @@ padding: 20px 40px !important;      /* Increased size */
 @media (max-width: 768px) {
   .button--custom--main {
     position: relative;
-    top: 40px; 
+    top: 24px; 
     padding: 9px 20px !important;   /* Smaller padding */
     font-size: 1.5rem !important;   /* Smaller font */
   }

@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
 <link
   rel="stylesheet"
@@ -19,6 +20,7 @@
 /* Header Menu Hover Effect */
 .header__menu-item.list-menu__item.list-menu__item--link {
   transition: color 0.3s ease;
+
 }
 
 .header__menu-item.list-menu__item.list-menu__item--link:hover {
@@ -35,8 +37,8 @@
   color: #460e91 !important;
 }.header__menu-item {
   padding: 1.5rem;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 600;
   text-decoration: none;
  
 }
@@ -82,7 +84,7 @@
   .list-menu__item {
     display: flex;
     align-items: center;
-    line-height: calc(1 +  / var(--font-body-scale));
+    line-height: calc(1 +  / var(--font-body-scale));  color: #460e91 !important;
   }
 
   .list-menu__item--link {
@@ -104,7 +106,11 @@
   .header {
     padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem;
   }
-
+  .header__submenu {
+    background-color: white !important;
+    border-radius: 4px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  }
   .section-header {
     position: sticky; /* This is for fixing a Safari z-index issue. PR #2147 */
     margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
@@ -195,6 +201,10 @@
         render 'header-drawer'
       endif
     -%}
+
+    {%- if section.settings.logo_position == 'top-center' or section.settings.menu == blank -%}
+      {% render 'header-search', input_id: 'Search-In-Modal-1' %}
+    {%- endif -%}
 
     {%- if section.settings.logo_position != 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
@@ -296,9 +306,7 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {%- if section.settings.logo_position == 'top-center' or section.settings.menu == blank -%}
-        {% render 'header-search', input_id: 'Search-In-Modal-1' %}
-      {%- endif -%}
+      {% render 'header-search', input_id: 'Search-In-Modal' %}
 
       {%- if shop.customer_accounts_enabled -%}
         <a
