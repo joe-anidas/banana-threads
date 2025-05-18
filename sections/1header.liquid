@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
 <link
   rel="stylesheet"
@@ -7,12 +8,12 @@
   onload="this.media='all'"
 >
 
-{%- if section.settings.menu_type_desktop == 'mega' -%}
-  <link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
-{%- endif -%}
-
 {%- if settings.predictive_search_enabled -%}
   <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- endif -%}
+
+{%- if section.settings.menu_type_desktop == 'mega' -%}
+  <link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endif -%}
 
 <style>
@@ -28,11 +29,11 @@
 /* Force the hover color */
 .header-wrapper .header__inline-menu .header__menu-item:hover,
 .header-wrapper .header__inline-menu .header__menu-item.list-menu__item--link:hover {
-  color: #460e91 !important;
+  color: #DCB301 !important;
 }
-/* Mobile460e91hover */
+/* Mobile menu hover */
 .menu-drawer__menu-item:hover {
-  color: #460e91 !important;
+  color: #DCB301 !important;
 }.header__menu-item {
   padding: 1.5rem;
   font-size: 18px;
@@ -194,6 +195,10 @@
       if section.settings.menu != blank
         render 'header-drawer'
       endif
+
+      if section.settings.logo_position == 'top-center' or section.settings.menu == blank
+        render 'header-search', input_id: 'Search-In-Modal-1'
+      endif
     -%}
 
     {%- if section.settings.logo_position != 'middle-center' -%}
@@ -296,9 +301,7 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {%- if section.settings.logo_position == 'top-center' or section.settings.menu == blank -%}
-        {% render 'header-search', input_id: 'Search-In-Modal-1' %}
-      {%- endif -%}
+      {% render 'header-search', input_id: 'Search-In-Modal' %}
 
       {%- if shop.customer_accounts_enabled -%}
         <a

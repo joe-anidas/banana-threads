@@ -183,11 +183,12 @@
       "view_full_details": "View full details",
       "xr_button": "View in your space",
       "xr_button_label": "View in your space, loads item in augmented reality window",
-      "taxes_included": "MRP inclusive of all taxes.",
+      "taxes_included": "     ",
       "duties_included": "Duties included.",
       "duties_and_taxes_included": "MRP inclusive of all taxes",
       "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout."
     },
+    
     "modal": {
       "label": "Media gallery"
     },

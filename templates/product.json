@@ -69,7 +69,7 @@
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-a936634b-f1f1-4180-88d6-0cf0f68a2f67",
-        "media_size": "large",
+        "media_size": "medium",
         "constrain_to_viewport": true,
         "media_fit": "contain",
         "gallery_layout": "thumbnail_slider",
