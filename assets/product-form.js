@@ -57,32 +57,36 @@ if (!customElements.get('product-form')) {
               quantityInput.value = 1;
             }
 
-            // Find and open cart drawer
+            // Immediately open cart drawer
             const cartDrawer = document.querySelector('cart-drawer');
             if (cartDrawer) {
-              if (typeof cartDrawer.renderContents === 'function') {
-                cartDrawer.renderContents(response);
-              } else {
-                // Manual drawer opening
-                setTimeout(() => {
-                  cartDrawer.open();
-                  
-                  // Update cart count
-                  const cartCountElements = document.querySelectorAll('.cart-count-bubble, .header__cart-count');
-                  cartCountElements.forEach(element => {
-                    if (element) {
-                      element.textContent = response.item_count;
-                      element.classList.toggle('hidden', response.item_count === 0);
-                    }
-                  });
-                }, 100);
-              }
+              // Force drawer to open immediately 
+              setTimeout(() => {
+                cartDrawer.open();
+                
+                // If drawer has renderContents method, use it
+                if (typeof cartDrawer.renderContents === 'function') {
+                  cartDrawer.renderContents(response);
+                } else {
+                  // Manually update cart drawer
+                  this.updateCartDrawerContents(response);
+                }
+              }, 10); // Very short timeout to ensure it happens right after transaction completes
             }
+
+            // Update cart count in header
+            this.updateHeaderCartCount(response.item_count);
 
             // Dispatch event for other components
             document.dispatchEvent(new CustomEvent('cart:updated', {
               bubbles: true,
               detail: { cart: response }
+            }));
+            
+            // Also dispatch product added event
+            document.dispatchEvent(new CustomEvent('product:added', {
+              bubbles: true,
+              detail: { product: response }
             }));
           })
           .catch(error => {
@@ -92,6 +96,44 @@ if (!customElements.get('product-form')) {
           .finally(() => {
             this.submitButton.removeAttribute('aria-disabled');
             if (loadingSpinner) loadingSpinner.classList.add('hidden');
+          });
+      }
+      
+      // Helper to update cart count in header
+      updateHeaderCartCount(count) {
+        const cartCountElements = document.querySelectorAll('.cart-count-bubble, .header__cart-count');
+        cartCountElements.forEach(element => {
+          if (element) {
+            element.textContent = count;
+            element.classList.toggle('hidden', count === 0);
+          }
+        });
+      }
+      
+      // Helper to manually update cart drawer contents
+      updateCartDrawerContents(cartData) {
+        const cartDrawer = document.querySelector('cart-drawer');
+        if (!cartDrawer) return;
+        
+        // Try to refresh cart drawer content
+        fetch(`${routes.cart_url}?section_id=cart-drawer`)
+          .then(response => response.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const drawerContent = doc.querySelector('.drawer__inner');
+            
+            if (drawerContent && cartDrawer.querySelector('.drawer__inner')) {
+              cartDrawer.querySelector('.drawer__inner').innerHTML = drawerContent.innerHTML;
+              
+              // Reattach event listeners
+              if (typeof cartDrawer.setupCartDrawerListeners === 'function') {
+                cartDrawer.setupCartDrawerListeners();
+              }
+            }
+          })
+          .catch(error => {
+            console.error('Error updating cart drawer:', error);
           });
       }
 
@@ -125,4 +167,15 @@ if (!customElements.get('product-form')) {
       }
     }
   );
+}
+
+// Helper function for making fetch requests
+function fetchConfig(type = 'json') {
+  return {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': `application/${type}`
+    }
+  };
 }
