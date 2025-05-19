@@ -5,6 +5,13 @@ class CartDrawer extends HTMLElement {
     this.addEventListener('keyup', (evt) => evt.code === 'Escape' && this.close());
     this.querySelector('#CartDrawer-Overlay').addEventListener('click', this.close.bind(this));
     this.setHeaderCartIconAccessibility();
+    
+    // Listen for cart updates
+    document.addEventListener('cart:updated', (event) => {
+      if (event.detail && event.detail.cart) {
+        this.refreshCartDrawer(event.detail.cart);
+      }
+    });
   }
 
   setHeaderCartIconAccessibility() {
@@ -29,10 +36,9 @@ class CartDrawer extends HTMLElement {
     if (triggeredBy) this.setActiveElement(triggeredBy);
     const cartDrawerNote = this.querySelector('[id^="Details-"] summary');
     if (cartDrawerNote && !cartDrawerNote.hasAttribute('role')) this.setSummaryAccessibility(cartDrawerNote);
-    // here the animation doesn't seem to always get triggered. A timeout seem to help
-    setTimeout(() => {
-      this.classList.add('animate', 'active');
-    });
+    
+    // Make sure active class is added
+    this.classList.add('animate', 'active');
 
     this.addEventListener(
       'transitionend',
@@ -41,7 +47,11 @@ class CartDrawer extends HTMLElement {
           ? this.querySelector('.drawer__inner-empty')
           : document.getElementById('CartDrawer');
         const focusElement = this.querySelector('.drawer__inner') || this.querySelector('.drawer__close');
-        trapFocus(containerToTrapFocusOn, focusElement);
+        
+        // Only trap focus if we have the necessary elements
+        if (typeof trapFocus === 'function' && containerToTrapFocusOn && focusElement) {
+          trapFocus(containerToTrapFocusOn, focusElement);
+        }
       },
       { once: true }
     );
@@ -51,7 +61,12 @@ class CartDrawer extends HTMLElement {
 
   close() {
     this.classList.remove('active');
-    removeTrapFocus(this.activeElement);
+    
+    // Only remove trap focus if we have the necessary function
+    if (typeof removeTrapFocus === 'function' && this.activeElement) {
+      removeTrapFocus(this.activeElement);
+    }
+    
     document.body.classList.remove('overflow-hidden');
   }
 
@@ -70,24 +85,34 @@ class CartDrawer extends HTMLElement {
     cartDrawerNote.parentElement.addEventListener('keyup', onKeyUpEscape);
   }
 
+  refreshCartDrawer(parsedState) {
+    fetch(`${routes.cart_url}?section_id=cart-drawer`)
+      .then(response => response.text())
+      .then(responseText => {
+        const html = new DOMParser().parseFromString(responseText, 'text/html');
+        const cartDrawerContent = html.querySelector('.drawer__inner');
+        
+        if (cartDrawerContent && this.querySelector('.drawer__inner')) {
+          this.querySelector('.drawer__inner').innerHTML = cartDrawerContent.innerHTML;
+        }
+        
+        // Update cart count
+        const cartIconBubble = document.getElementById('cart-icon-bubble');
+        const cartIconBubbleHtml = html.getElementById('cart-icon-bubble');
+        
+        if (cartIconBubble && cartIconBubbleHtml) {
+          cartIconBubble.innerHTML = cartIconBubbleHtml.innerHTML;
+        }
+        
+        // Remove is-empty class if needed
+        this.classList.toggle('is-empty', parsedState.item_count === 0);
+      })
+      .catch(e => console.error('Error refreshing cart drawer:', e));
+  }
+
   renderContents(parsedState) {
-    this.querySelector('.drawer__inner').classList.contains('is-empty') &&
-      this.querySelector('.drawer__inner').classList.remove('is-empty');
-    this.productId = parsedState.id;
-    this.getSectionsToRender().forEach((section) => {
-      const sectionElement = section.selector
-        ? document.querySelector(section.selector)
-        : document.getElementById(section.id);
-
-      if (!sectionElement) return;
-      sectionElement.innerHTML = this.getSectionInnerHTML(parsedState.sections[section.id], section.selector);
-    });
-
-    // Open drawer immediately without waiting for recommendations
-    setTimeout(() => {
-      this.querySelector('#CartDrawer-Overlay').addEventListener('click', this.close.bind(this));
-      this.open();
-    });
+    this.refreshCartDrawer(parsedState);
+    this.open();
   }
 
   getSectionInnerHTML(html, selector = '.shopify-section') {
