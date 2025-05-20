@@ -344,87 +344,14 @@
         {%- endcase -%}
       {%- endfor -%}
 
-      {%- if shop.enabled_currencies.size > 1 and section.settings.show_currency_selector -%}
-        <div class="header__localization">
-          <noscript>
-            {%- form 'localization', id: 'HeaderCurrencyNoscriptForm', class: 'localization-form' -%}
-              <div class="localization-form__select">
-                <h2 class="visually-hidden" id="HeaderCurrencyNoscriptLabel">
-                  {{ 'localization.currency_selector' | t }}
-                </h2>
-                <select
-                  class="localization-selector link"
-                  name="currency_code"
-                  aria-labelledby="HeaderCurrencyNoscriptLabel"
-                >
-                  {%- for currency in shop.enabled_currencies -%}
-                    <option
-                      value="{{ currency.iso_code }}"
-                      {%- if currency.iso_code == cart.currency.iso_code %} selected="selected"{% endif -%}
-                    >
-                      {{ currency.iso_code }}
-                    </option>
-                  {%- endfor -%}
-                </select>
-                {% render 'icon-caret' %}
-              </div>
-              <button class="button button--tertiary">{{ 'localization.update_currency' | t }}</button>
-            {%- endform -%}
-          </noscript>
-
-          <localization-form>
-            {%- form 'localization', id: 'HeaderCurrencyForm', class: 'localization-form' -%}
-              <div class="no-js-hidden">
-                <div class="disclosure">
-                  <button
-                    type="button"
-                    class="disclosure__button localization-form__select localization-selector link link--text caption-large"
-                    aria-expanded="false"
-                    aria-controls="HeaderCurrencyList"
-                    aria-describedby="HeaderCurrencyLabel"
-                  >
-                    <span class="localization-form__currency">{{ cart.currency.iso_code }}</span>
-                    {% render 'icon-caret' %}
-                  </button>
-                  <div
-                    class="disclosure__list-wrapper"
-                    hidden
-                  >
-                    <ul id="HeaderCurrencyList" role="list" class="disclosure__list list-unstyled">
-                      {%- for currency in shop.enabled_currencies -%}
-                        <li class="disclosure__item" tabindex="-1">
-                          <a
-                            class="link link--text disclosure__link caption-large{% if currency.iso_code == cart.currency.iso_code %} disclosure__link--active{% endif %} focus-inset"
-                            href="#"
-                            data-value="{{ currency.iso_code }}"
-                            {% if currency.iso_code == cart.currency.iso_code %}
-                              aria-current="true"
-                            {% endif %}
-                          >
-                            {{ currency.iso_code }}
-                          </a>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-                  </div>
-                </div>
-                <input type="hidden" name="currency_code" value="{{ cart.currency.iso_code }}">
-              </div>
-            {%- endform -%}
-          </localization-form>
-        </div>
-      {%- endif -%}
-
-      <a href="#" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble" role="button" aria-haspopup="dialog">
-        {%- liquid
-          if cart == empty
-            render 'icon-cart-empty'
-          else
-            render 'icon-cart'
-          endif
-        -%}
+      <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
+        {% if cart == empty %}
+          <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
+        {% else %}
+          <span class="svg-wrapper">{{ 'icon-cart.svg' | inline_asset_content }}</span>
+        {% endif %}
         <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
-        {%- if cart.item_count > 0 -%}
+        {%- if cart != empty -%}
           <div class="cart-count-bubble">
             {%- if cart.item_count < 100 -%}
               <span aria-hidden="true">{{ cart.item_count }}</span>
@@ -779,12 +706,6 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 20
-    },
-    {
-      "type": "checkbox",
-      "id": "show_currency_selector",
-      "default": true,
-      "label": "t:sections.header.settings.show_currency_selector.label"
     }
   ],
   "blocks": [

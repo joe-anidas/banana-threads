@@ -3364,18 +3364,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Setup cart icon to open drawer
-    const cartIconBubble = document.querySelector('#cart-icon-bubble');
-    const cartDrawer = document.querySelector('cart-drawer');
-    
-    if (cartIconBubble && cartDrawer) {
-      cartIconBubble.addEventListener('click', function(event) {
-        event.preventDefault();
-        cartDrawer.open();
-        return false;
-      });
-    }
-  
     // Function to ensure the cart drawer opens properly
     function setupCartDrawerFunctionality() {
       // Add to cart button click handler for fallback
@@ -3428,12 +3416,6 @@ document.addEventListener('DOMContentLoaded', function() {
               element.textContent = cart.item_count;
               element.classList.toggle('hidden', cart.item_count === 0);
             });
-            
-            // Dispatch cart updated event
-            document.dispatchEvent(new CustomEvent('cart:updated', {
-              bubbles: true,
-              detail: { cart }
-            }));
           } catch (error) {
             console.error('Error adding to cart:', error);
           } finally {
@@ -3441,29 +3423,8 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         });
       }
-      
-      // Add event listener to ensure cart is refreshed after product is added
-      document.addEventListener('product:added', function(event) {
-        const cartDrawer = document.querySelector('cart-drawer');
-        if (cartDrawer) {
-          setTimeout(() => {
-            cartDrawer.open();
-          }, 100);
-        }
-      });
     }
     
     setupCartDrawerFunctionality();
-    
-    // Ensure product form works properly with cart
-    const productForm = document.querySelector('product-form');
-    if (productForm) {
-      productForm.addEventListener('submit', function(event) {
-        // Prevent default to allow our custom handling
-        if (!customElements.get('product-form')) {
-          event.preventDefault();
-        }
-      });
-    }
   });
 </script>
