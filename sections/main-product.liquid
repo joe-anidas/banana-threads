@@ -788,7 +788,7 @@
                   {% # theme-check-enable %}
                   <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
                     {{ 'products.product.quantity.label' | t }}
-                    <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}">
+                    <span class="quantity__rules-cart hidden">
                       {%- render 'loading-spinner' -%}
                       <span
                         >(
@@ -1503,11 +1503,11 @@
     /* Ensure tables don't show simultaneously on mobile */
     .size-table {
       display: none !important;
-      margin-bottom: 10px !important;
+      margin-bottom: 20px !important;
     }
     
     .size-table.active {
-      display: table !important;
+      display: table !important;    margin-bottom: 20px !important;
     }
   }
 </style>
@@ -1680,16 +1680,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const item = cart.items.find(item => item.variant_id == variantId);
         const quantity = item ? item.quantity : 0;
         
-        // Find and update all quantity indicators
+        // Keep all quantity indicators hidden, but still update their content
         document.querySelectorAll('.quantity__rules-cart').forEach(container => {
           const span = container.querySelector('span');
           if (span) {
-            if (quantity > 0) {
-              span.textContent = `(${quantity} in cart)`;
-              container.classList.remove('hidden');
-            } else {
-              container.classList.add('hidden');
-            }
+            span.textContent = `(${quantity} in cart)`;
+            // Always keep it hidden
+            container.classList.add('hidden');
           }
         });
         
@@ -1734,12 +1731,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const input = container.querySelector('.quantity__input');
       const plusButton = container.querySelector('button[name="plus"]');
       
-      // Initial check
-      if (parseInt(input.value) >= 4) {
-        plusButton.disabled = true;
-        plusButton.style.opacity = '0.5';
-        plusButton.style.cursor = 'not-allowed';
-      }
+      // Initial check - use the full checkQuantity function for consistency
+      checkQuantity(input, plusButton);
       
       // Add event listeners
       input.addEventListener('change', function() {
@@ -1766,14 +1759,33 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function checkQuantity(input, plusButton) {
     const value = parseInt(input.value);
+    const minusButton = input.parentElement.querySelector('button[name="minus"]');
+    
+    // Disable plus button when quantity reaches 4
     if (value >= 4) {
       plusButton.disabled = true;
       plusButton.style.opacity = '0.5';
       plusButton.style.cursor = 'not-allowed';
+      
+      // Ensure value doesn't exceed 4
+      if (value > 4) {
+        input.value = 4;
+      }
     } else {
       plusButton.disabled = false;
       plusButton.style.opacity = '1';
       plusButton.style.cursor = 'pointer';
+    }
+    
+    // Handle minus button - only disable when quantity is 1
+    if (value <= 1) {
+      minusButton.disabled = true;
+      minusButton.style.opacity = '0.5';
+      minusButton.style.cursor = 'not-allowed';
+    } else {
+      minusButton.disabled = false;
+      minusButton.style.opacity = '1';
+      minusButton.style.cursor = 'pointer';
     }
   }
   
@@ -1788,23 +1800,12 @@ document.addEventListener('DOMContentLoaded', function() {
           quantityContainers.forEach(container => {
             const input = container.querySelector('.quantity__input');
             const plusButton = container.querySelector('button[name="plus"]');
-            const minusButton = container.querySelector('button[name="minus"]');
             
             // Reset to 1
             input.value = 1;
             
-            // Re-enable plus button
-            plusButton.disabled = false;
-            plusButton.style.opacity = '1';
-            plusButton.style.cursor = 'pointer';
-            
-            // Ensure minus button works properly with minimum values
-            const min = parseInt(input.getAttribute('min') || 1);
-            if (min > 1) {
-              minusButton.disabled = false;
-              minusButton.style.opacity = '1';
-              minusButton.style.cursor = 'pointer';
-            }
+            // Use our checkQuantity function to properly set button states
+            checkQuantity(input, plusButton);
           });
         }, 500); // Half second delay to ensure cart update is processed
       });
@@ -1819,6 +1820,40 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('shopify:section:load', function(event) {
     setupQuantityLimits();
     setupAddToCartReset();
+  });
+});
+
+// Additional direct handler for the plus button
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('quantity-input button[name="plus"]').forEach(button => {
+    button.addEventListener('click', function(event) {
+      const input = this.parentElement.querySelector('input');
+      const value = parseInt(input.value);
+      
+      // If the quantity is already 4 or more, prevent the click
+      if (value >= 4) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+      }
+    });
+  });
+  
+  // Ensure any newly added quantity inputs get the same handling
+  document.addEventListener('shopify:section:load', function(event) {
+    event.target.querySelectorAll('quantity-input button[name="plus"]').forEach(button => {
+      button.addEventListener('click', function(event) {
+        const input = this.parentElement.querySelector('input');
+        const value = parseInt(input.value);
+        
+        // If the quantity is already 4 or more, prevent the click
+        if (value >= 4) {
+          event.preventDefault();
+          event.stopPropagation();
+          return false;
+        }
+      });
+    });
   });
 });
 </script>
@@ -3405,6 +3440,20 @@ document.addEventListener('DOMContentLoaded', function() {
               
               if (cartDrawerContent && cartDrawer.querySelector('.drawer__inner')) {
                 cartDrawer.querySelector('.drawer__inner').innerHTML = cartDrawerContent.innerHTML;
+                
+                // Ensure remove buttons are working by dispatching a custom event
+                document.dispatchEvent(new CustomEvent('cart:refreshed', {
+                  detail: { source: 'add-to-cart' }
+                }));
+                
+                // Ensure quantity inputs are properly initialized
+                cartDrawer.querySelectorAll('quantity-input').forEach(input => {
+                  if (!customElements.get('quantity-input')) return;
+                  const newInput = document.createElement('quantity-input');
+                  newInput.className = input.className;
+                  newInput.innerHTML = input.innerHTML;
+                  input.parentNode?.replaceChild(newInput, input);
+                });
               }
             }
             

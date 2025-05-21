@@ -1,11 +1,20 @@
 class CartRemoveButton extends HTMLElement {
   constructor() {
     super();
+  }
 
+  connectedCallback() {
     this.addEventListener('click', (event) => {
       event.preventDefault();
       const cartItems = this.closest('cart-items') || this.closest('cart-drawer-items');
-      cartItems.updateQuantity(this.dataset.index, 0, event);
+      
+      // Fix: Convert the dataset index to a number to ensure correct format
+      const lineIndex = Number(this.dataset.index);
+      if (!isNaN(lineIndex)) {
+        cartItems.updateQuantity(lineIndex, 0, event);
+      } else {
+        console.error('Invalid line index for cart removal:', this.dataset.index);
+      }
     });
   }
 }
@@ -147,8 +156,19 @@ class CartItems extends HTMLElement {
   updateQuantity(line, quantity, event, name, variantId) {
     this.enableLoading(line);
 
+    // Ensure line parameter is a valid number
+    const lineNumber = Number(line);
+    if (isNaN(lineNumber)) {
+      console.error('Invalid line number:', line);
+      this.disableLoading(line);
+      
+      const errors = document.getElementById('cart-errors') || document.getElementById('CartDrawer-CartErrors');
+      if (errors) errors.textContent = window.cartStrings ? window.cartStrings.error : 'An error occurred';
+      return;
+    }
+
     const body = JSON.stringify({
-      line,
+      line: lineNumber,
       quantity,
       sections: this.getSectionsToRender().map((section) => section.section),
       sections_url: window.location.pathname,

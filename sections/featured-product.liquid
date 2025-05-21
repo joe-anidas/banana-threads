@@ -174,14 +174,6 @@
                     {% # theme-check-enable %}
                     <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
                       {{ 'products.product.quantity.label' | t }}
-                      <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}">
-                        {%- render 'loading-spinner' -%}
-                        <span
-                          >(
-                          {{- 'products.product.quantity.in_cart_html' | t: quantity: cart_qty -}}
-                          )</span
-                        >
-                      </span>
                     </label>
                     <div class="price-per-item__container">
                       <quantity-input class="quantity">
