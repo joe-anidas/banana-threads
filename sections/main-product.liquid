@@ -739,8 +739,18 @@
               
               {%- when 'description' -%}
                 {%- if product.description != blank -%}
-                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
-                    {{ product.description }}
+                  <div class="product__description-container" {{ block.shopify_attributes }}>
+                    <details class="product__description-details">
+                      <summary class="product__description-summary">
+                        <span class="product__description-title">Product Description</span>
+                        <span class="product__description-arrow">
+                          {{- 'icon-caret.svg' | inline_asset_content -}}
+                        </span>
+                      </summary>
+                      <div class="product__description rte quick-add-hidden">
+                        {{ product.description }}
+                      </div>
+                    </details>
                   </div>
                 {%- endif -%}
               {%- when 'sku' -%}
@@ -3399,8 +3409,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Function to ensure the cart drawer opens properly
-    function setupCartDrawerFunctionality() {
+    // Function to handle cart count updates
+    function setupCartCountUpdates() {
       // Add to cart button click handler for fallback
       const addToCartButton = document.querySelector('button[name="add"]');
       if (addToCartButton && !customElements.get('product-form')) {
@@ -3425,38 +3435,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (!response.ok) throw new Error('Network response was not ok');
             
-            const cartData = await response.json();
-            
-            // Open cart drawer
-            const cartDrawer = document.querySelector('cart-drawer');
-            if (cartDrawer) {
-              cartDrawer.open();
-              
-              // Refresh cart drawer content
-              const drawerResponse = await fetch(`${routes.cart_url}?section_id=cart-drawer`);
-              const responseText = await drawerResponse.text();
-              const html = new DOMParser().parseFromString(responseText, 'text/html');
-              const cartDrawerContent = html.querySelector('.drawer__inner');
-              
-              if (cartDrawerContent && cartDrawer.querySelector('.drawer__inner')) {
-                cartDrawer.querySelector('.drawer__inner').innerHTML = cartDrawerContent.innerHTML;
-                
-                // Ensure remove buttons are working by dispatching a custom event
-                document.dispatchEvent(new CustomEvent('cart:refreshed', {
-                  detail: { source: 'add-to-cart' }
-                }));
-                
-                // Ensure quantity inputs are properly initialized
-                cartDrawer.querySelectorAll('quantity-input').forEach(input => {
-                  if (!customElements.get('quantity-input')) return;
-                  const newInput = document.createElement('quantity-input');
-                  newInput.className = input.className;
-                  newInput.innerHTML = input.innerHTML;
-                  input.parentNode?.replaceChild(newInput, input);
-                });
-              }
-            }
-            
             // Update cart count
             const cartResponse = await fetch('/cart.js');
             const cart = await cartResponse.json();
@@ -3474,6 +3452,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
     
-    setupCartDrawerFunctionality();
+    setupCartCountUpdates();
   });
 </script>

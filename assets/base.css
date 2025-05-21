@@ -3160,19 +3160,18 @@ details-disclosure > details {
   margin-bottom: var(--media-shadow-vertical-offset);
 }
 
-.rte ul,
-.rte ol {
-  list-style-position: inside;
-  padding-left: 2rem;
+.rte ul, .rte ol{
+  list-style-position: outside;
+  padding-left: 1.5rem;
+
 }
 
 .rte li {
-  list-style: inherit;
+
+  margin-left: 1.5rem;
+
 }
 
-.rte li:last-child {
-  margin-bottom: 0;
-}
 
 .rte a {
   color: rgba(var(--color-link), var(--alpha-link));
