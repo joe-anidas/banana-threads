@@ -3594,20 +3594,24 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
-
-.banner__content {
-  position: relative;
-  top: 30px; /* Moves it down slightly */
-  text-align: center; /* Center-aligns the content */
+@font-face {
+  font-family: 'Forte';
+  src: url('forte.woff') format('woff'),
+       url('forte.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
-.banner__buttons {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 1vh; /* Adjust this percentage as needed */
-  z-index: 10;
+/* Fallback font-face in case the first one fails */
+@font-face {
+  font-family: 'Forte';
+  src: url('../assets/forte.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
+
 
 
 

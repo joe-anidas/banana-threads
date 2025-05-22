@@ -1,25 +1,9 @@
 {{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+{{ 'section-image-banner-media.css' | asset_url | stylesheet_tag }}
 
 {%- if section.settings.image_height == 'adapt' and section.settings.image != blank -%}
   {%- style -%}
-    @media screen and (max-width: 749px) {
-      #Banner-{{ section.id }}::before,
-      #Banner-{{ section.id }} .banner__media::before,
-      #Banner-{{ section.id }}:not(.banner--mobile-bottom) .banner__content::before {
-        padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;
-        content: '';
-        display: block;
-      }
-    }
-
-    @media screen and (min-width: 750px) {
-      #Banner-{{ section.id }}::before,
-      #Banner-{{ section.id }} .banner__media::before {
-        padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;
-        content: '';
-        display: block;
-      }
-    }
+  
 #Banner-{{ section.id }} .banner__media img {
   width: 120%;
   height: 120%; /* Creates zoom effect */
@@ -28,199 +12,12 @@
   display: block; /* Removes inline spacing */
   transform: translateY(-12%); /* Fine-tune position */
 }
-/* Mobile Banner - Precise Center Bottom Zoom */
-@media screen and (max-width: 749px) {
-
-  /* Move image view to bottom (standalone version) */
-/* Pure bottom-aligned image without relative positioning */
-#Banner-{{ section.id }} .banner__media img {
-  width: 100%;
-  height: 120%; /* Creates zoom effect */
-  object-fit: cover;
-  object-position: bottom; /* Hard-lock to bottom edge */
-  display: block; /* Removes inline spacing */
-  transform: translateY(-15%); /* Fine-tune position */
-}
-
-/* Contain the zoomed image */
-#Banner-{{ section.id }} .banner__media {
-  overflow: hidden;
-}
-
-}
-    .product.grid {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 2rem;
-  }
-  
-  /* Media gallery styling */
-  .product__media-wrapper {
-    width: 50%;
-    overflow-x: auto;
-    white-space: nowrap;
-    scroll-snap-type: x mandatory;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-  }
-  
-  .product__media-wrapper .product-media-container {
-    display: inline-flex;
-    gap: 1rem;
-  }
-  
-  .product__media-wrapper .product-media-container > * {
-    scroll-snap-align: start;
-    min-width: 80%;
-    flex-shrink: 0;
-  }
-  
-  /* Hide scrollbar but keep functionality */
-  .product__media-wrapper::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* Product info styling */
-  .product__info-wrapper {
-    width: 50%;
-    position: sticky;
-
-
-  }
-  
-
-  
-  /* Responsive adjustments */
-  @media screen and (max-width: 749px) {
-    .product.grid {
-      flex-direction: column;
-    }
-    
-    .product__media-wrapper,
-    .product__info-wrapper {
-      width: 100%;
-    }
-    
-    .product__media-wrapper {
-      order: 1;
-    }
-    
-    .product__info-wrapper {
-      order: 2;
-      
-    }
-  }
   {%- endstyle -%}
 {%- endif -%}
 
 {%- style -%}
   #Banner-{{ section.id }}::after {
     opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
-  }
-
-  /* Banner content adjustments */
-  .banner__content {
-    padding-top: 0;
-    padding-bottom: 2.5rem; /* Match description margin */
-  }
-
-  .banner__box {
-    padding-top: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* Logo styling */
-  .banner__logo {
-    font-size: 4rem;
-    margin: 0;
-    padding-top: 0;
-    text-align: center;
-  }
-
-  .banner__logo-image {
-    margin: 0;
-    padding: 0;
-  }
-
-  /* Title styling */
-  .banner__title {
-    font-family: 'Forte', sans-serif !important;
-    font-size: 5.5rem;
-    font-weight: 600;
-    line-height: 1.3;
-    text-align: center;
-    color: #044660;
-    margin-top: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  /* Description styling */
-  .banner__description {
-    font-family: 'Poppins', sans-serif;
-    font-size: 3.5rem;
-    line-height: 1.4;
-    margin-bottom: 2.5rem;
-    font-weight: 500;
-    max-width: 60ch;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    color: #044660;
-  }
-
-  /* Button styling */
-  .banner__buttons {
-    margin-top: 2rem;
-    margin-bottom: 0;
-  }
-
-  .banner__buttons .button--custom--main {
-    margin-top: 2rem;
-  }
-
-  /* Mobile responsiveness */
-  @media (max-width: 749px) {
-    .banner__title {
-      font-size: 2rem;
-    }
-    
-    .banner__description {
-      font-size: 1.4rem;
-    }
-
-    .banner__content {
-      padding-bottom: 1.5rem;
-    }
-
-    .banner__buttons {
-      margin-top: 1.5rem;
-    }
-  }
-
-  @media (max-width: 360px) {
-    .banner__title {
-      font-size: 1.4rem;
-      margin-bottom: 1.2rem;
-    }
-    
-    .banner__description {
-      font-size: 1.1rem;
-      line-height: 1;
-      margin-bottom: 1.5rem;
-    }
-
-    .banner__content {
-      padding-bottom: 1rem;
-    }
-
-    .banner__buttons {
-      margin-top: 1rem;
-    }
   }
 {%- endstyle -%}
 
@@ -314,7 +111,7 @@
     <div class="banner__box content-container content-container--full-width-mobile color-{{ section.settings.color_scheme }} gradient">
       {%- if section.settings.logo != blank -%}
         <div class="banner__logo">
-          {{ section.settings.logo | image_url: width: 200 | image_tag:
+          {{ section.settings.logo | image_url: width: 150 | image_tag:
             loading: 'lazy',
             width: 200,
             height: 200,
