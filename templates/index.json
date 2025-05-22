@@ -39,17 +39,20 @@
         ".banner-image {object-fit: cover; width: 100%; height: 100vh; /* Adjust height if needed */}"
       ],
       "settings": {
-        "image": "shopify://shop_images/2_1.jpg",
+        "image": "shopify://shop_images/Website-size.jpg",
         "image_overlay_opacity": 0,
         "image_height": "adapt",
         "image_behavior": "none",
-        "desktop_content_position": "bottom-center",
+        "desktop_content_position": "top-center",
         "desktop_content_alignment": "center",
         "show_text_box": false,
         "color_scheme": "scheme-3",
         "stack_images_on_mobile": false,
         "mobile_content_alignment": "center",
-        "show_text_below": false
+        "show_text_below": false,
+        "logo": "shopify://shop_images/PNG_1.png",
+        "title": "We're Banana Threads.",
+        "description": "We make clothes for your inner weirdo, your sleepy dreamer and your 3AM alter ego. Wear us when you're daydreaming through meetings or flirting with existential dread. Reality's optional - we just make sure you look good in it."
       }
     },
     "featured_collection_XwzK6B": {

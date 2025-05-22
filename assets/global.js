@@ -219,12 +219,7 @@ class QuantityInput extends HTMLElement {
     super();
     this.input = this.querySelector('input');
     this.changeEvent = new Event('change', { bubbles: true });
-    
-    // Only add change listener if input is not readonly
-    if (!this.input.hasAttribute('readonly')) {
-      this.input.addEventListener('change', this.onInputChange.bind(this));
-    }
-    
+    this.input.addEventListener('change', this.onInputChange.bind(this));
     this.querySelectorAll('button').forEach((button) =>
       button.addEventListener('click', this.onButtonClick.bind(this))
     );
@@ -270,20 +265,15 @@ class QuantityInput extends HTMLElement {
 
   validateQtyRules() {
     const value = parseInt(this.input.value);
-    
-    // Only disable minus button when at minimum value
     if (this.input.min) {
       const buttonMinus = this.querySelector(".quantity__button[name='minus']");
       buttonMinus.classList.toggle('disabled', parseInt(value) <= parseInt(this.input.min));
     }
-    
-    // Get cart quantity
-    const cartQty = this.input.dataset.cartQuantity ? parseInt(this.input.dataset.cartQuantity) : 0;
-    const totalQty = value + cartQty;
-    
-    // Disable plus button when total quantity reaches 4, regardless of max setting
-    const buttonPlus = this.querySelector(".quantity__button[name='plus']");
-    buttonPlus.classList.toggle('disabled', totalQty >= 4 || (this.input.max && value >= parseInt(this.input.max)));
+    if (this.input.max) {
+      const max = parseInt(this.input.max);
+      const buttonPlus = this.querySelector(".quantity__button[name='plus']");
+      buttonPlus.classList.toggle('disabled', value >= max);
+    }
   }
 }
 
