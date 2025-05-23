@@ -20,6 +20,12 @@
           "type": "price",
           "settings": {}
         },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
@@ -38,12 +44,6 @@
             "show_gift_card_recipient": true
           }
         },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
-          }
-        },
         "description": {
           "type": "description",
           "settings": {}
@@ -52,20 +52,20 @@
       "block_order": [
         "title",
         "price",
+        "share",
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
-        "share",
         "description"
       ],
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-a936634b-f1f1-4180-88d6-0cf0f68a2f67",
-        "media_size": "medium",
+        "media_size": "small",
         "constrain_to_viewport": true,
         "media_fit": "contain",
-        "gallery_layout": "thumbnail_slider",
-        "mobile_thumbnails": "columns",
+        "gallery_layout": "thumbnail",
+        "mobile_thumbnails": "hide",
         "media_position": "left",
         "image_zoom": "lightbox",
         "hide_variants": true,

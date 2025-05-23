@@ -23,6 +23,12 @@
 
 }
 
+.link,
+.customer a {
+
+  text-decoration: none;}
+
+
 .header__menu-item.list-menu__item.list-menu__item--link:hover {
   text-decoration: underline;
   text-underline-offset: 0.3rem;
@@ -32,14 +38,17 @@
 .header-wrapper .header__inline-menu .header__menu-item.list-menu__item--link:hover {
   color: #460e91 !important;
 }
+
 /* Mobile460e91hover */
 .menu-drawer__menu-item:hover {
-  color: #460e91 !important;
-}.header__menu-item {
+  color: #ffffff !important;
+}
+.header__menu-item {
   padding: 1.5rem;
   font-size: 17px;
   font-weight: 600;
   text-decoration: none;
+
  
 }
   header-drawer {
@@ -78,15 +87,19 @@
   }
 
   summary.list-menu__item {
-    padding-right: 2.7rem;
+    padding-right: 2.7rem;color: #ffffff !important;
   }
+  
+  body:has(.product__description) summary.list-menu__item {
+  color: #460e91 !important;
+}
 
   .list-menu__item {
     display: flex;
     align-items: center;
     line-height: calc(1 +  / var(--font-body-scale));  color: #460e91 !important;
   }
-
+  .header__submenu .list-menu .list-menu--disclosure .list-menu__item span {  color: #460e91 !important;}
   .list-menu__item--link {
     text-decoration: none;
     padding-bottom: 1rem;
@@ -160,8 +173,43 @@
     background-color: white !important;
     border-radius: 4px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-  }
-  
+  }/* Remove underlines from icons */
+
+  /* Remove underline from icons */
+.header__icon--account,
+.header__icon--cart,
+.search-modal__form .search__button {
+  text-decoration: none;
+}
+
+/* Make search and profile icons bigger */
+.header__icon--account i.fa-user,
+.search-modal__form .search__button .icon{
+  font-size: 2rem; /* Adjust size as needed */
+}
+
+/* If using SVG icons, you might need this */
+.header__icon--account svg,
+.search-modal__form .search__button svg {
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+}
+
+/* Change cart count color to blue */
+.cart-count-bubble {
+
+  color:#ffffff;/* Optional: change text color for better contrast */
+}
+body:has(.banner__description) .header__icon .cart-count-bubble span{
+    color: #460e91;
+}
+.link, .customer a{
+  color: #460e91;
+}
+/* If you want to specifically target only the number */
+.cart-count-bubble span {
+  color: #460e91;
+}
 
     .header__heading-link,
     .header__menu-item,
@@ -176,6 +224,8 @@
   </style>
 {% endif %}
 
+
+ 
 
 <{{ header_tag }}
   {% if header_tag == 'sticky-header' %}
@@ -319,12 +369,13 @@
               {%- if customer and customer.has_avatar? -%}
                 {{ customer | avatar }}
               {%- else -%}
-                <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+              <span class="svg-wrapper"> <i class="fa-solid fa-user" style="font-size: 1.8rem;"></i></span>
+
               {%- endif -%}
             </account-icon>
           {%- else -%}
-            <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
-          {%- endif -%}
+          <span class="svg-wrapper"> <i class="fa-solid fa-user" style="font-size: 1.8rem;"></i></span>
+        {%- endif -%}
           <span class="visually-hidden">
             {%- liquid
               if customer
