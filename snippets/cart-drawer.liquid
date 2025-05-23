@@ -15,7 +15,37 @@
   .drawer {
     visibility: hidden;
   }
-  
+  .cart-item__media{
+    width: auto;
+  }
+  .cart-item__name{
+    font-weight: 600;
+  }
+  quantity-popover{
+  position: absolute;
+  margin-right: 20px; 
+  margin-left: auto; /* Maintains right alignment */
+  top: 60px; /* Adjust as needed */
+  left: 170px; /* Adjust as needed */
+
+  }/* Make the total amount bold */
+  .cart-item__final-price,
+  .cart-item__old-price,
+  .cart-item__price-wrapper .price,
+  .totals__total-value,
+  .totals__total {
+    font-weight: 600 !important;
+  }
+  quantity-popover-container{
+    width: 80px !important; /* Reduced from 100px */
+    height: 25px !important; /* Reduced from 30px */
+    min-width: 16px !important;
+    min-height: 16px !important;
+  }
+  .cart-drawer .cart-items .cart-item__quantity{
+    position: absolute;
+
+  }
 </style>
 
 <cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}">
@@ -498,8 +528,8 @@
             <h2 class="totals__total">{{ 'sections.cart.estimated_total' | t }}</h2>
             <p class="totals__total-value">{{ cart.total_price | money_with_currency }}</p>
           </div>
-
-          <small class="tax-note caption-large rte">
+<br>
+          {% comment %} <small class="tax-note caption-large rte">
             {%- if cart.duties_included and cart.taxes_included -%}
               {%- if shop.shipping_policy.body == blank -%}
                 {{ 'sections.cart.duties_and_taxes_included_shipping_at_checkout_without_policy' | t }}
@@ -537,7 +567,7 @@
                 }}
               {%- endif -%}
             {%- endif -%}
-          </small>
+          </small> {% endcomment %}
         </div>
 
         <!-- CTAs -->

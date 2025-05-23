@@ -30,7 +30,9 @@
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
     }
-
+.product-description-content.active {
+  margin-top: 0px;
+}
 .button--secondary {
     --color-button: 255, 255, 255; /* White background (RGB for #FFFFFF) */
     --color-button-text: 145, 77, 255; /* Purple text (RGB for #914dff) */
@@ -166,9 +168,9 @@ width: 80%;
       
     }
 .product__title h1 {
-  font-size: 30px;
+  font-size: 26px;
   font-family: 'Poppins', sans-serif;
-  font-weight: 800;
+  font-weight: 700;
   color: #460e91;
   margin: 0;
   line-height: 1.2;
@@ -259,8 +261,8 @@ width: 80%;
 
 .share-button__button {
   position: absolute;
-  margin-right: 40px; 
-  margin-left: auto; /* Maintains right alignment */
+  margin-right: 60px; 
+  margin-left: 0px; /* Maintains right alignment */
 
   top: -55px; /* Adjust as needed */
   right: 40px; /* Adjust as needed */
