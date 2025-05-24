@@ -221,6 +221,13 @@ body:has(.banner__description) .header__icon .cart-count-bubble span{
     .header-wrapper.color-{{ section.settings.color_scheme }} {
       background: #DAD9FF  !important;
     }
+    @media (max-width: 360px) {
+    .menu-drawer .list-social{
+      display: none !important;
+    }
+    .menu-drawer__inner-container, .menu-drawer__navigation-container{ 
+      background-color: #ffffff !important;
+    }}
   </style>
 {% endif %}
 

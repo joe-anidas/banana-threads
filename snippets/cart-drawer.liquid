@@ -15,6 +15,15 @@
   .drawer {
     visibility: hidden;
   }
+.drawer__heading{
+  font-size: 20px;
+  font-weight: 700;
+}
+.cart-drawer .cart-items th{
+  font-size: 14px;
+  font-weight: 700;
+}
+
   .cart-item__media{
     width: auto;
   }
@@ -26,7 +35,7 @@
   margin-right: 20px; 
   margin-left: auto; /* Maintains right alignment */
   top: 60px; /* Adjust as needed */
-  left: 170px; /* Adjust as needed */
+  left: 200px; /* Adjust as needed */
 
   }/* Make the total amount bold */
   .cart-item__final-price,
@@ -36,12 +45,31 @@
   .totals__total {
     font-weight: 600 !important;
   }
-  quantity-popover-container{
-    width: 80px !important; /* Reduced from 100px */
-    height: 25px !important; /* Reduced from 30px */
-    min-width: 16px !important;
-    min-height: 16px !important;
-  }
+/* Add this to your existing style section */
+.cart-drawer .quantity-popover-container {
+  width: 100px !important;
+  height: 50px !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+}
+
+.cart-drawer .quantity__input {
+  font-size: 12px !important;
+  padding: 0 8px !important;
+  height: 30px !important;
+}
+
+.cart-drawer .quantity__button {
+  width: 25px !important;
+  height: 25px !important;
+  padding: 0 1px !important;
+}
+
+.cart-drawer .quantity {
+  min-height: 25px !important;
+  height: 30px !important;
+}
+
   .cart-drawer .cart-items .cart-item__quantity{
     position: absolute;
 

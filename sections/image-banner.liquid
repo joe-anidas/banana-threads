@@ -12,6 +12,22 @@
   display: block; /* Removes inline spacing */
   transform: translateY(-12%); /* Fine-tune position */
 }
+/* Add this to your CSS or in a style tag in the section */
+.banner__description {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  word-spacing: -0.05em; /* Adjust this value to control space between words */
+  letter-spacing: 0.02em; /* Adjust this value to control space between letters */
+  line-height: 1.6; /* Adjust line spacing */
+  max-width: 100%; /* Ensure it uses full width */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* For mobile responsiveness */
+
+
   {%- endstyle -%}
 {%- endif -%}
 
