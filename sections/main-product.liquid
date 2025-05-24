@@ -381,21 +381,19 @@ width: 80%;
 
 .size-chart-floating {
   position: absolute;
-  top: -32px;
-  right: 40px;
+  top: 0px;
+  right: 100px;
   z-index: 5;
 }
 
 .size-chart-button {
   display: flex;
   align-items: center;
-  gap: 5px;
   font-size: 14px;
   color: #914dff;
-  text-decoration: underline;
   background: none;
   border: none;
-  padding: 27px 0;
+
 }
 
 .size-chart-button .icon-wrapper {
@@ -1018,7 +1016,301 @@ width: 80%;
                     render 'share-button', block: block, share_link: share_url
                   %}
               {%- when 'variant_picker' -%}
-                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                <div class="variant-picker-container">
+                  {%- if product.options contains 'Size' -%}
+                    <modal-opener class="size-chart-floating" data-modal="#PopupModal-size-chart">
+                      <button type="button" class="size-chart-button link">
+                        Size Chart
+                        <span class="icon-wrapper">
+                          {{ 'icon-external.svg' | inline_asset_content }}
+                        </span>
+                      </button>
+                    </modal-opener>
+                    {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                  {%- endif -%}
+                </div>
+
+                {% comment %} Size chart modal {% endcomment %}
+                <modal-dialog id="PopupModal-size-chart" class="product-popup-modal">
+                  <div role="dialog" aria-label="Size Chart" aria-modal="true" class="product-popup-modal__content size-chart-modal" tabindex="-1">
+                    <button id="ModalClose-size-chart" type="button" class="product-popup-modal__toggle" aria-label="{{ 'accessibility.close' | t }}">
+                      {{- 'icon-close.svg' | inline_asset_content -}}
+                    </button>
+                    <div class="size-chart-container">
+                      <div class="size-chart-image">
+                        {% assign drive_image = 'https://images.bewakoof.com/sizeguide/men-half-sleeves-tshirts-1484025744-1623075051.jpg' %}
+                        <img src="{{ drive_image }}" alt="Size Guide Visualization" loading="lazy" class="size-guide-visual" width="400" height="300">
+                      </div>
+                      
+                      <div class="size-chart-table">
+                        <h2 class="h2">Size Guide</h2>
+                       
+                        <div class="size-tabs">
+                          <button class="size-tab active" data-unit="inches">Inches</button>
+                          <button class="size-tab" data-unit="cm">Centimeters</button>
+                        </div>
+                        
+                        <div class="size-table-wrapper">
+                          {% comment %} Inches Table {% endcomment %}
+                          <table class="size-table active" data-unit="inches">
+                            <thead>
+                              <tr>
+                                <th>Inches</th>
+                                <th>S</th>
+                                <th>M</th>
+                                <th>L</th>
+                                <th>XL</th>
+                                <th>XXL</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Length</td>
+                                <td>28</td>
+                                <td>29</td>
+                                <td>30</td>
+                                <td>31</td>
+                                <td>32</td>
+                              </tr>
+                              <tr>
+                                <td>Chest</td>
+                                <td>41</td>
+                                <td>43</td>
+                                <td>45</td>
+                                <td>47</td>
+                                <td>49</td>
+                              </tr>
+                              <tr>
+                                <td>Shoulder</td>
+                                <td>19</td>
+                                <td>20</td>
+                                <td>21</td>
+                                <td>22</td>
+                                <td>23</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
+                          {% comment %} Centimeters Table {% endcomment %}
+                          <table class="size-table" data-unit="cm">
+                            <thead>
+                              <tr>
+                                <th>Centimeters</th>
+                                <th>S</th>
+                                <th>M</th>
+                                <th>L</th>
+                                <th>XL</th>
+                                <th>XXL</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Length</td>
+                                <td>71.1</td>
+                                <td>73.7</td>
+                                <td>76.2</td>
+                                <td>78.7</td>
+                                <td>81.3</td>
+                              </tr>
+                              <tr>
+                                <td>Chest</td>
+                                <td>104.1</td>
+                                <td>109.2</td>
+                                <td>114.3</td>
+                                <td>119.4</td>
+                                <td>124.5</td>
+                              </tr>
+                              <tr>
+                                <td>Shoulder</td>
+                                <td>48.3</td>
+                                <td>50.8</td>
+                                <td>53.3</td>
+                                <td>55.9</td>
+                                <td>58.4</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </modal-dialog>
+
+                <style>
+                  /* Size Chart Modal Styles */
+                  .size-chart-modal .product-popup-modal__content {
+                    max-width: 700px;
+                    padding: 20px;
+                  }
+
+                  .size-chart-container {
+                    display: flex;
+                    gap: 20px;
+                  }
+
+                  .size-chart-image {
+                    flex: 1;
+                    min-width: 200px;
+                    max-width: 250px;
+                  }
+
+                  .size-chart-image img {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 4px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                  }
+
+                  .size-chart-table {
+                    flex: 1;
+                    min-width: 250px;
+                  }
+
+                  .size-note {
+                    color: #914dff;
+                    font-size: 14px;
+                    margin-bottom: 15px;
+                    font-style: italic;
+                  }
+
+                  .size-tabs {
+                    display: flex;
+                    margin-bottom: 15px;
+                    border-bottom: 1px solid #e0e0e0;
+                  }
+
+                  .size-tab {
+                    padding: 8px 16px;
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    font-weight: 600;
+                    color: #666;
+                    border-bottom: 2px solid transparent;
+                  }
+
+                  .size-tab.active {
+                    color: #914dff;
+                    border-bottom: 2px solid #914dff;
+                  }
+
+                  .size-table-wrapper {
+                    overflow-x: auto;
+                  }
+
+                  .size-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 5px;
+                    display: none;
+                  }
+
+                  .size-table.active {
+                    display: table;
+                  }
+
+                  .size-table th, .size-table td {
+                    padding: 10px 12px;
+                    text-align: center;
+                    border: 1px solid #e0e0e0;
+                    font-size: 14px;
+                  }
+
+                  .size-table th {
+                    background-color: #f7f7f7;
+                    font-weight: 600;
+                  }
+
+                  .size-table tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                  }
+
+                  .size-table tr:hover {
+                    background-color: #f1f1f1;
+                  }
+
+                  @media screen and (max-width: 750px) {
+                    .size-chart-modal .product-popup-modal__content {
+                      max-width: 95%;
+                      padding: 15px;
+                    }
+                    
+                    .size-chart-container {
+                      flex-direction: column;
+                    }
+                    
+                    .size-chart-image {
+                      max-width: 200px;
+                      margin: 0 auto;
+                    }
+                    
+                    .size-table th, .size-table td {
+                      padding: 8px;
+                      font-size: 12px;
+                    }
+                    
+                    /* Ensure tables don't show simultaneously on mobile */
+                    .size-table {
+                      display: none !important;
+                      margin-bottom: 10px !important;
+                    }
+                    
+                    .size-table.active {
+                      display: table !important;
+                    }
+                  }
+                </style>
+
+                <script>
+                  document.addEventListener('DOMContentLoaded', function() {
+                    // Tab switching functionality
+                    const tabs = document.querySelectorAll('.size-tab');
+                    const tables = document.querySelectorAll('.size-table');
+                    
+                    function hideAllTables() {
+                      tables.forEach(table => {
+                        table.style.display = 'none';
+                        table.classList.remove('active');
+                      });
+                    }
+                    
+                    function showTable(unit) {
+                      const tableToShow = document.querySelector(`.size-table[data-unit="${unit}"]`);
+                      if (tableToShow) {
+                        tableToShow.style.display = 'table';
+                        tableToShow.classList.add('active');
+                      }
+                    }
+                    
+                    // Initialize - hide all tables and show inches by default
+                    hideAllTables();
+                    showTable('inches');
+                    
+                    // Make inches tab active by default
+                    tabs.forEach(tab => {
+                      tab.classList.remove('active');
+                      if(tab.dataset.unit === 'inches') {
+                        tab.classList.add('active');
+                      }
+                    });
+                    
+                    // Set up tab click handlers
+                    tabs.forEach(tab => {
+                      tab.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Update active tab styling
+                        tabs.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Hide all tables and show the selected one
+                        const unit = this.dataset.unit;
+                        hideAllTables();
+                        showTable(unit);
+                      });
+                    });
+                  });
+                </script>
               {%- when 'buy_buttons' -%}
                 {%- render 'buy-buttons',
                   block: block,
