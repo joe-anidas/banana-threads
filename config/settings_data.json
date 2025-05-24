@@ -11,6 +11,7 @@
   "current": {
     "logo": "shopify://shop_images/Banana-Threads.png",
     "logo_width": 60,
+    "favicon": "shopify://shop_images/Banana-Threads.png",
     "type_header_font": "poppins_n4",
     "heading_scale": 100,
     "type_body_font": "poppins_n4",
@@ -20,7 +21,7 @@
     "spacing_grid_horizontal": 8,
     "spacing_grid_vertical": 8,
     "animations_reveal_on_scroll": true,
-    "animations_hover_elements": "none",
+    "animations_hover_elements": "3d-lift",
     "buttons_border_thickness": 1,
     "buttons_border_opacity": 100,
     "buttons_radius": 30,
@@ -146,6 +147,7 @@
       "scheme-1": {
         "settings": {
           "background": "#ffffff",
+          "hover_color": "#DCB301",
           "background_gradient": "",
           "text": "#121212",
           "button": "#121212",
@@ -157,6 +159,7 @@
       "scheme-2": {
         "settings": {
           "background": "#f3f3f3",
+          "hover_color": "#DCB301",
           "background_gradient": "",
           "text": "#121212",
           "button": "#121212",
@@ -168,6 +171,7 @@
       "scheme-3": {
         "settings": {
           "background": "#242833",
+          "hover_color": "#DCB301",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#ffffff",
@@ -179,6 +183,7 @@
       "scheme-4": {
         "settings": {
           "background": "#121212",
+          "hover_color": "#DCB301",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#ffffff",
@@ -190,6 +195,7 @@
       "scheme-5": {
         "settings": {
           "background": "#334fb4",
+          "hover_color": "#DCB301",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#ffffff",
@@ -201,6 +207,7 @@
       "scheme-5b142ac9-2875-4ead-a68a-8348b122a007": {
         "settings": {
           "background": "#ffffff",
+          "hover_color": "#DCB301",
           "background_gradient": "",
           "text": "#121212",
           "button": "#121212",
@@ -212,6 +219,7 @@
       "scheme-14aee5a8-4dbc-49fb-8a48-2a83f9415193": {
         "settings": {
           "background": "#38d6fe",
+          "hover_color": "#DCB301",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#f3f3f3",
@@ -223,6 +231,7 @@
       "scheme-d83f9141-6fd0-4e5f-be12-3246b279392c": {
         "settings": {
           "background": "#ffffff",
+          "hover_color": "#DCB301",
           "background_gradient": "linear-gradient(180deg, #d4bdff, #c6ddfe 50.5%,  #c6ddfe 100%)",
           "text": "#4a0072",
           "button": "#121212",
@@ -234,6 +243,7 @@
       "scheme-a936634b-f1f1-4180-88d6-0cf0f68a2f67": {
         "settings": {
           "background": "#dad9ff",
+          "hover_color": "#DCB301",
           "background_gradient": "",
           "text": "#121212",
           "button": "#121212",
