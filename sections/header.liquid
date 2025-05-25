@@ -175,7 +175,7 @@
 %}
 
 
-{% if template.name == 'product' %}
+{% if template.name != 'index'%}
   <style>
         .header-wrapper {
       background: #DAD9FF !important;
@@ -186,7 +186,10 @@
     border-radius: 4px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
   }/* Remove underlines from icons */
-
+  
+summary.list-menu__item{
+  color: #460e91 !important;
+}
   /* Remove underline from icons */
 .header__icon--account,
 .header__icon--cart,
@@ -199,7 +202,9 @@
 .search-modal__form .search__button .icon{
   font-size: 2rem; /* Adjust size as needed */
 }
-
+.header__active-menu-item , .header__menu-item .icon-caret{
+  color: #460e91;
+}
 /* If using SVG icons, you might need this */
 .header__icon--account svg,
 .search-modal__form .search__button svg {
