@@ -2511,8 +2511,8 @@ input[type='checkbox'] {
 }
 
 .header__icons .shopify-app-block {
-  max-width: 4.4rem;
-  max-height: 4.4rem;
+  max-width: 4rem;
+  max-height: 4rem;
   overflow: hidden;
 }
 
@@ -2532,8 +2532,8 @@ input[type='checkbox'] {
 }
 
 .header__icon .svg-wrapper {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
 }
 
 .header__icon::after {
@@ -2554,8 +2554,8 @@ input[type='checkbox'] {
 
 .header__icon,
 .header__icon--cart .icon {
-  height: 4.4rem;
-  width: 4.4rem;
+  height: 4rem;
+  width: 4rem;
   padding: 0;
 }
 

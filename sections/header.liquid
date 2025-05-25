@@ -33,12 +33,14 @@
     color: #000000 !important;
   }
 }
+
 .link,
 .customer a {
 
   text-decoration: none;}
 
 
+ 
 .header__menu-item.list-menu__item.list-menu__item--link:hover {
   text-decoration: underline;
   text-underline-offset: 0.3rem;
@@ -380,12 +382,12 @@ body:has(.banner__description) .header__icon .cart-count-bubble span{
               {%- if customer and customer.has_avatar? -%}
                 {{ customer | avatar }}
               {%- else -%}
-              <span class="svg-wrapper"> <i class="fa-solid fa-user" style="font-size: 1.8rem;"></i></span>
+              <span class="svg-wrapper"> <i class="fa-solid fa-user" style="font-size: 2rem;"></i></span>
 
               {%- endif -%}
             </account-icon>
           {%- else -%}
-          <span class="svg-wrapper"> <i class="fa-solid fa-user" style="font-size: 1.8rem;"></i></span>
+          <span class="svg-wrapper"> <i class="fa-solid fa-user" style="font-size: 2rem;"></i></span>
         {%- endif -%}
           <span class="visually-hidden">
             {%- liquid

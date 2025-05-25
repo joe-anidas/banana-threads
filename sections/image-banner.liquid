@@ -3,30 +3,106 @@
 
 {%- if section.settings.image_height == 'adapt' and section.settings.image != blank -%}
   {%- style -%}
+
+  #Banner-{{ section.id }} .banner__media img {
+    width: 120%;
+    height: 120%; /* Creates zoom effect */
+    object-fit: cover;
+    object-position: bottom; /* Hard-lock to bottom edge */
+    display: block; /* Removes inline spacing */
+    transform: translateY(-12%); /* Fine-tune position */
+  }
   
-#Banner-{{ section.id }} .banner__media img {
-  width: 120%;
-  height: 120%; /* Creates zoom effect */
-  object-fit: cover;
-  object-position: bottom; /* Hard-lock to bottom edge */
-  display: block; /* Removes inline spacing */
-  transform: translateY(-12%); /* Fine-tune position */
+  .banner__description {
+    text-align: justify;
+    text-justify: inter-word;  
+    line-height: 1.4;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @supports (text-align-last: justify) {
+  .banner__description {
+    text-align-last: justify;
+  }
 }
-/* Add this to your CSS or in a style tag in the section */
-.banner__description {
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: auto;
-  word-spacing: -0.05em; /* Adjust this value to control space between words */
-  letter-spacing: 0.02em; /* Adjust this value to control space between letters */
-  line-height: 1.6; /* Adjust line spacing */
-  max-width: 100%; /* Ensure it uses full width */
-  margin-left: auto;
-  margin-right: auto;
+  /* Adjust banner content positioning */
+  #Banner-{{ section.id }} .banner__content {
+    top: -50px;
+    transform: none;
+  }
+  
+  /* Ensure content covers the image */
+  #Banner-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  #Banner-{{ section.id }} .banner__box {
+    position: relative;
+    z-index: 2;
+    margin-top: 0;
+    padding: 20px;
+  }
+  
+  /* Mobile adjustments */
+  @media screen and (max-width: 749px) {
+    #Banner-{{ section.id }} .banner__content {
+      top: 5px;
+    }
+    
+    #Banner-{{ section.id }} .banner__box {
+      padding: 15px;
+    }
+    
+    .banner__description {
+      word-spacing: normal;
+      letter-spacing: normal;
+      font-size: 1.8rem;
+    }
+    
+      #Banner-{{ section.id }} .banner__media img {
+    width: 120%;
+    height: 120%; /* Creates zoom effect */
+    object-fit: cover;
+    object-position: bottom; /* Hard-lock to bottom edge */
+    display: block; /* Removes inline spacing */
+    transform: translateY(-12%); /* Fine-tune position */
+  }
+  
+  .banner__description {
+    text-align: justify;
+    text-justify: inter-word;  
+    line-height: 1.4;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @supports (text-align-last: justify) {
+  .banner__description {
+    text-align-last: justify;
+  }
 }
-
-/* For mobile responsiveness */
-
+  /* Adjust banner content positioning */
+  #Banner-{{ section.id }} .banner__content {
+    top: -50px;
+    transform: none;
+  }
+  
+  /* Ensure content covers the image */
+  #Banner-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  #Banner-{{ section.id }} .banner__box {
+    position: relative;
+    z-index: 2;
+    margin-top: 0;
+    padding: 20px;
+  }
+  
+  }
 
   {%- endstyle -%}
 {%- endif -%}

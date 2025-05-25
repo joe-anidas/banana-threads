@@ -51,7 +51,7 @@
   
   .footer {
     margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
-    background: #FFFFFF !important;
+    background: #F6F6F6  !important;
     color: #000000;
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
@@ -86,7 +86,7 @@
 }
 
 .field__input1 {
-  width: 100%;
+  width: 90%;
   height: 45px;
  
   color: #000;
@@ -116,7 +116,7 @@
   cursor: pointer;
   transition: opacity 0.15s;
   background-color: #000;
-  margin-left: 10px;
+
 }
 
 .footer-block__cta:hover {
@@ -276,7 +276,7 @@
     justify-content: center;
     height: 55px;
     padding: 0 20px;
-    margin-left: 40px;
+    margin-left: 10px;
     overflow: hidden;
     white-space: nowrap;
    
@@ -352,7 +352,7 @@
 }
 
 .field__input1 {
-    width: 110%;
+    width: 100%;
     height: 55px;
    
 
@@ -392,16 +392,21 @@
     .footer-block__heading {
         font-size: 22px !important;
     }
-    
+    .footer__copyright .caption{
+          text-decoration: none;
+    }
    
-    .field__input1,
+    .field__input1{
+        height: 45px !important;
+        width: 80% !important;
+    }
     .footer-block__cta {
         height: 45px !important;
         width: 100% !important;
     }
     
     .footer-block__cta {
-        max-width: 40% !important;
+        max-width: fit-content;
     }
     .footer-block--left {
       

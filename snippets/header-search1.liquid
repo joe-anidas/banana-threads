@@ -1,11 +1,6 @@
 {% comment %}
-  Renders a header search modal. Should be used with 'header.liquid'
-
-  Accepts:
-  - input_id: {String} Id for the search input element (required)
-
-  Usage:
-  {% render 'header-search', input_id: 'My-Id'%}
+  Enhanced header search component that expands from the icon to the left
+  with custom placeholder text "What are you looking for?"
 {% endcomment %}
 
 <details-modal class="header__search">
@@ -19,9 +14,6 @@
         <span class="svg-wrapper">
           <i class="fa-solid fa-magnifying-glass" style="font-size: 2rem;"></i>
         </span>
-        <span class="svg-wrapper header__icon-close">
-          <i class="fa-solid fa-magnifying-glass" style="font-size: 2rem;"></i>
-        </span>
       </span>
     </summary>
     <div
@@ -32,7 +24,7 @@
     >
       <div class="modal-overlay"></div>
       <div
-        class="search-modal__content{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} search-modal__content-top{% else %} search-modal__content-bottom{% endif %}"
+        class="search-modal__content search-modal__content--left-align" 
         tabindex="-1"
       >
         {%- if settings.predictive_search_enabled -%}
@@ -48,7 +40,7 @@
               type="search"
               name="q"
               value="{{ search.terms | escape }}"
-              placeholder="{{ 'general.search.search' | t }}"
+              placeholder="What are you looking for?"
               {%- if settings.predictive_search_enabled -%}
                 role="combobox"
                 aria-expanded="false"
@@ -62,8 +54,6 @@
                 spellcheck="false"
               {%- endif -%}
             >
-            <label class="field__label" for="{{ input_id }}">{{ 'general.search.search' | t }}</label>
-            <input type="hidden" name="options[prefix]" value="last">
             <button
               type="reset"
               class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
@@ -84,7 +74,6 @@
             <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
               {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
             </div>
-
             <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
           {%- endif -%}
         </form>
@@ -93,16 +82,53 @@
         {%- else -%}
           </search-form>
         {%- endif -%}
-        <button
-          type="button"
-          class="search-modal__close-button modal__close-button link link--text focus-inset"
-          aria-label="{{ 'accessibility.close' | t }}"
-        >
-          <span class="svg-wrapper">
-            {{- 'icon-close.svg' | inline_asset_content -}}
-          </span>
-        </button>
       </div>
     </div>
   </details>
 </details-modal>
+
+<style>
+  /* Search modal styles */
+  .search-modal__content--left-align {
+    left: 0;
+    right: auto;
+    width: auto;
+    max-width: 100%;
+    padding: 1rem;
+    transform-origin: left center;
+    animation: slideInFromLeft 0.3s ease-out;
+  }
+
+  @keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .search-modal__form {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  /* Position the search icon properly */
+  .header__icon--search {
+    margin-right: 1rem;
+  }
+
+  /* Responsive adjustments */
+  @media screen and (max-width: 749px) {
+    .search-modal__content--left-align {
+      width: 100%;
+      padding: 0.5rem;
+    }
+    
+    .search__input {
+      font-size: 1rem;
+    }
+  }
+</style>

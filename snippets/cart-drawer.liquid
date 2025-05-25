@@ -61,8 +61,11 @@
 
 .cart-drawer .quantity__button {
   width: 25px !important;
-  height: 25px !important;
+
   padding: 0 1px !important;
+}
+  .cart-item__price-wrapper {
+  margin-top: 3px !important;
 }
 
 .cart-drawer .quantity {
@@ -74,6 +77,14 @@
     position: absolute;
 
   }
+  /* MOBILE HORIZONTAL SCROLL (SINGLE ITEM WITH 20% PEEK) */
+@media screen and (max-width: 750px) {
+quantity-popover{
+
+  left: 180px; /* Adjust as needed */
+
+  }
+}
 </style>
 
 <cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}">
