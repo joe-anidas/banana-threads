@@ -121,9 +121,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-width: 100%;
+    width: 100%;
     cursor: pointer;
-    border-bottom: 1px solid #e0e0e0;
     margin-bottom: 0px;
 }
 
@@ -248,6 +247,7 @@ width: 100%;
   flex: 1;
   min-width: 200px;
   max-width: 250px;
+  padding-top: 25px;
 }
 
 .size-chart-image img {
@@ -255,6 +255,7 @@ width: 100%;
   height: auto;
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 15px;
 }
 
 
@@ -338,20 +339,31 @@ width: 100%;
   background-color: #f1f1f1;
 }
 
+
 @media screen and (max-width: 750px) {
-  .size-chart-modal .product-popup-modal__content {
-    max-width: 95%;
-    padding: 15px;
-  }
-  
-  .size-chart-container {
-    flex-direction: column;
-  }
-  
   .size-chart-image {
-    max-width: 200px;
-    margin: 0 auto;
+    max-width: 90% !important; /* Make image take full width on mobile */
+    min-width: 80% !important;
+    padding-top: 15px; /* Remove extra padding */
+    margin-bottom: 0px; /* Add some space below the image */
   }
+.product-popup-modal__toggle {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+  .size-chart-image img {
+    width: 100% !important; /* Ensure image fills container */
+    height: auto !important;
+    padding: 15px !important; /* Remove padding around image */
+    max-height: 400px; /* Limit height if needed */
+    object-fit: contain; /* Ensure entire image is visible */
+  }
+
+  .size-chart-container {
+    flex-direction: column-reverse; /* Put image below the table */
+  }
+  
+
   
   .size-table th, .size-table td {
     padding: 8px;
@@ -1049,88 +1061,179 @@ width: 100%;
                           <button class="size-tab active" data-unit="inches">Inches</button>
                           <button class="size-tab" data-unit="cm">Centimeters</button>
                         </div>
-                        
-                        <div class="size-table-wrapper">
-                          {% comment %} Inches Table {% endcomment %}
-                          <table class="size-table active" data-unit="inches">
-                            <thead>
-                              <tr>
-                                <th>Inches</th>
-                                <th>S</th>
-                                <th>M</th>
-                                <th>L</th>
-                                <th>XL</th>
-                                <th>XXL</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Length</td>
-                                <td>28</td>
-                                <td>29</td>
-                                <td>30</td>
-                                <td>31</td>
-                                <td>32</td>
-                              </tr>
-                              <tr>
-                                <td>Chest</td>
-                                <td>41</td>
-                                <td>43</td>
-                                <td>45</td>
-                                <td>47</td>
-                                <td>49</td>
-                              </tr>
-                              <tr>
-                                <td>Shoulder</td>
-                                <td>19</td>
-                                <td>20</td>
-                                <td>21</td>
-                                <td>22</td>
-                                <td>23</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          
-                          {% comment %} Centimeters Table {% endcomment %}
-                          <table class="size-table" data-unit="cm">
-                            <thead>
-                              <tr>
-                                <th>Centimeters</th>
-                                <th>S</th>
-                                <th>M</th>
-                                <th>L</th>
-                                <th>XL</th>
-                                <th>XXL</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Length</td>
-                                <td>71.1</td>
-                                <td>73.7</td>
-                                <td>76.2</td>
-                                <td>78.7</td>
-                                <td>81.3</td>
-                              </tr>
-                              <tr>
-                                <td>Chest</td>
-                                <td>104.1</td>
-                                <td>109.2</td>
-                                <td>114.3</td>
-                                <td>119.4</td>
-                                <td>124.5</td>
-                              </tr>
-                              <tr>
-                                <td>Shoulder</td>
-                                <td>48.3</td>
-                                <td>50.8</td>
-                                <td>53.3</td>
-                                <td>55.9</td>
-                                <td>58.4</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                       <div class="size-table-wrapper">
+{% comment %} Determine if product is in Benny Madness collection {% endcomment %}
+{% assign is_benny_madness = false %}
+{% for collection in product.collections %}
+  {% if collection.handle == 'mascot-designs' %}
+    {% assign is_benny_madness = true %}
+  {% endif %}
+{% endfor %}
+
+{% if is_benny_madness %}
+
+    {% comment %} Inches Table - Benny Madness (smaller sizes) {% endcomment %}
+    <table class="size-table active" data-unit="inches">
+      <thead>
+        <tr>
+          <th>Inches</th>
+          <th>S</th>
+          <th>M</th>
+          <th>L</th>
+          <th>XL</th>
+          <th>XXL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Length</td>
+          <td>26</td>
+          <td>27</td>
+          <td>28</td>
+          <td>29</td>
+          <td>30</td>
+        </tr>
+        <tr>
+          <td>Chest</td>
+          <td>38</td>
+          <td>40</td>
+          <td>42</td>
+          <td>44</td>
+          <td>46</td>
+        </tr>
+        <tr>
+          <td>Shoulder</td>
+          <td>16</td>
+          <td>17</td>
+          <td>18</td>
+          <td>19</td>
+          <td>20</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    {% comment %} Centimeters Table - Benny Madness (smaller sizes) {% endcomment %}
+    <table class="size-table" data-unit="cm">
+      <thead>
+        <tr>
+          <th>Centimeters</th>
+          <th>S</th>
+          <th>M</th>
+          <th>L</th>
+          <th>XL</th>
+          <th>XXL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Length</td>
+          <td>66</td>
+          <td>68.6</td>
+          <td>71.1</td>
+          <td>73.7</td>
+          <td>76.2</td>
+        </tr>
+        <tr>
+          <td>Chest</td>
+          <td>96.5</td>
+          <td>101.6</td>
+          <td>106.7</td>
+          <td>111.8</td>
+          <td>116.8</td>
+        </tr>
+        <tr>
+          <td>Shoulder</td>
+          <td>40.6</td>
+          <td>43.2</td>
+          <td>45.7</td>
+          <td>48.3</td>
+          <td>50.8</td>
+        </tr>
+      </tbody>
+    </table>
+  {% else %}
+    {% comment %} Inches Table - Default (larger sizes) {% endcomment %}
+    <table class="size-table active" data-unit="inches">
+      <thead>
+        <tr>
+          <th>Inches</th>
+          <th>S</th>
+          <th>M</th>
+          <th>L</th>
+          <th>XL</th>
+          <th>XXL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Length</td>
+          <td>28</td>
+          <td>29</td>
+          <td>30</td>
+          <td>31</td>
+          <td>32</td>
+        </tr>
+        <tr>
+          <td>Chest</td>
+          <td>41</td>
+          <td>43</td>
+          <td>45</td>
+          <td>47</td>
+          <td>49</td>
+        </tr>
+        <tr>
+          <td>Shoulder</td>
+          <td>19</td>
+          <td>20</td>
+          <td>21</td>
+          <td>22</td>
+          <td>23</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    {% comment %} Centimeters Table - Default (larger sizes) {% endcomment %}
+    <table class="size-table" data-unit="cm">
+      <thead>
+        <tr>
+          <th>Centimeters</th>
+          <th>S</th>
+          <th>M</th>
+          <th>L</th>
+          <th>XL</th>
+          <th>XXL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Length</td>
+          <td>71.1</td>
+          <td>73.7</td>
+          <td>76.2</td>
+          <td>78.7</td>
+          <td>81.3</td>
+        </tr>
+        <tr>
+          <td>Chest</td>
+          <td>104.1</td>
+          <td>109.2</td>
+          <td>114.3</td>
+          <td>119.4</td>
+          <td>124.5</td>
+        </tr>
+        <tr>
+          <td>Shoulder</td>
+          <td>48.3</td>
+          <td>50.8</td>
+          <td>53.3</td>
+          <td>55.9</td>
+          <td>58.4</td>
+        </tr>
+      </tbody>
+    </table>
+  {% endif %}
+</div>
+                  
                       </div>
                     </div>
                   </div>
@@ -3107,4 +3210,52 @@ function toggleDescription(element) {
     const content = element.nextElementSibling;
     content.classList.toggle('active');
 }
+  document.addEventListener('DOMContentLoaded', function() {
+  // Tab switching functionality
+  const tabs = document.querySelectorAll('.size-tab');
+  const tables = document.querySelectorAll('.size-table');
+  
+  function hideAllTables() {
+    tables.forEach(table => {
+      table.style.display = 'none';
+      table.classList.remove('active');
+    });
+  }
+  
+  function showTable(unit) {
+    const tableToShow = document.querySelector(`.size-table[data-unit="${unit}"]`);
+    if (tableToShow) {
+      tableToShow.style.display = 'table';
+      tableToShow.classList.add('active');
+    }
+  }
+  
+  // Initialize - hide all tables and show inches by default
+  hideAllTables();
+  showTable('inches');
+  
+  // Make inches tab active by default
+  tabs.forEach(tab => {
+    tab.classList.remove('active');
+    if(tab.dataset.unit === 'inches') {
+      tab.classList.add('active');
+    }
+  });
+  
+  // Set up tab click handlers
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Update active tab styling
+      tabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Hide all tables and show the selected one
+      const unit = this.dataset.unit;
+      hideAllTables();
+      showTable(unit);
+    });
+  });
+});
 </script>

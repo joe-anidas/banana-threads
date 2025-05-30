@@ -13,6 +13,7 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "custom_css": [],
       "settings": {
         "show_social": true,
         "enable_follow_on_shop": true,
@@ -20,7 +21,7 @@
         "refund_link": "shopify://policies/refund-policy",
         "terms_link": "shopify://policies/terms-of-service",
         "privacy_link": "shopify://policies/privacy-policy",
-        "hello_link": "shopify://pages/contact",
+        "contact_link": "shopify://policies/contact-information",
         "newsletter_heading": "BE A BANANA INSIDER",
         "email_placeholder": "Your email",
         "newsletter_button": "Yes, I'm In",

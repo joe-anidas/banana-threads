@@ -55,6 +55,9 @@
         {%- if section.settings.privacy_link != blank -%}
           <a href="{{ section.settings.privacy_link }}" class="link list-menu__item list-menu__item--link">Privacy Policy</a>
         {%- endif -%}
+         {%- if section.settings.contact_link != blank -%}
+          <a href="{{ section.settings.contact_link }}" class="link list-menu__item list-menu__item--link">Contact Us</a>
+        {%- endif -%}
       </div>
       
       <!-- CTA -->
@@ -218,8 +221,8 @@
     },
     {
       "type": "url",
-      "id": "hello_link",
-      "label": "Say Hello Link"
+      "id": "contact_link",
+      "label": "Contact Link"
     },
     {
       "type": "header",

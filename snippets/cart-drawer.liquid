@@ -29,22 +29,24 @@
   }
   .cart-item__name{
     font-weight: 600;
+
   }
   quantity-popover{
   position: absolute;
   margin-right: 20px; 
   margin-left: auto; /* Maintains right alignment */
-  top: 60px; /* Adjust as needed */
+  top: 67px; /* Adjust as needed */
   left: 200px; /* Adjust as needed */
 
   }/* Make the total amount bold */
   .cart-item__final-price,
-  .cart-item__old-price,
-  .cart-item__price-wrapper .price,
+  .cart-item__old-price,   .cart-item__price-wrapper .price,
   .totals__total-value,
   .totals__total {
     font-weight: 600 !important;
   }
+
+
 /* Add this to your existing style section */
 .cart-drawer .quantity-popover-container {
   width: 100px !important;
@@ -80,10 +82,24 @@
   /* MOBILE HORIZONTAL SCROLL (SINGLE ITEM WITH 20% PEEK) */
 @media screen and (max-width: 750px) {
 quantity-popover{
-
-  left: 180px; /* Adjust as needed */
+position: absolute;
+  margin-right: 20px; 
+  margin-left: auto;
+  left: 175px;
+  top: 65px; /* Adjust as needed */
 
   }
+  .price{
+  letter-spacing: 0rem;
+}
+  .cart-item__price-wrapper .price{
+     font-size: 14px !important; 
+   }
+   .cart-item__name{
+    font-size: 14px;
+  }
+    .cart-item__quantity-wrapper {
+        flex-wrap: nowrap;}
 }
 </style>
 

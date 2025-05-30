@@ -3,6 +3,72 @@
     padding-top: 0;
     padding-bottom: 2.5rem; /* Match description margin */
   }
+.banner__logo-image {
+  --wobble-x-1: -0.457;
+  --wobble-y-1: -0.893;
+  --wobble-r-1: 0.391;
+  --wobble-x-2: -0.119;
+  --wobble-y-2: -0.614;
+  --wobble-r-2: -0.285;
+  --wobble-x-3: -0.068;
+  --wobble-y-3: -0.686;
+  --wobble-r-3: 0.178;
+  --wobble-x-4: -0.970;
+  --wobble-y-4: 0.560;
+  --wobble-r-4: -0.138;
+  --wobble-delay: 0.988s;
+  --wobble-duration: 9.456s;
+  --intensity: 8;
+
+  /* Set initial transform to match the animation's starting position */
+  transform: 
+    translateX(calc(var(--wobble-x-1) * 1px * var(--intensity)))
+    translateY(calc(var(--wobble-y-1) * 1px * var(--intensity)))
+    rotate(calc(var(--wobble-r-1) * 1deg * var(--intensity)));
+
+  animation: organicWobble var(--wobble-duration) ease-in-out var(--wobble-delay) infinite;
+  transform-origin: center;
+  backface-visibility: hidden;
+  will-change: transform;
+  transition: transform 0.8s ease-out; /* Smooth initial transition */
+}
+.banner__title {
+  /* No animation properties - completely static */
+  transform: none; /* Resets any transforms */
+  animation: none; /* Disables any animations */
+  transition: none; /* Removes transitions */
+  will-change: auto; /* Resets will-change */
+  backface-visibility: visible; /* Default value */
+}
+
+@keyframes organicWobble {
+  0%, 100% {
+    transform: 
+      translateX(calc(var(--wobble-x-1) * 1px * var(--intensity)))
+      translateY(calc(var(--wobble-y-1) * 1px * var(--intensity)))
+      rotate(calc(var(--wobble-r-1) * 1deg * var(--intensity)));
+  }
+  25% {
+    transform: 
+      translateX(calc(var(--wobble-x-2) * 1px * var(--intensity)))
+      translateY(calc(var(--wobble-y-2) * 1px * var(--intensity)))
+      rotate(calc(var(--wobble-r-2) * 1deg * var(--intensity)));
+  }
+  50% {
+    transform: 
+      translateX(calc(var(--wobble-x-3) * 1px * var(--intensity)))
+      translateY(calc(var(--wobble-y-3) * 1px * var(--intensity)))
+      rotate(calc(var(--wobble-r-3) * 1deg * var(--intensity)));
+  }
+  75% {
+    transform: 
+      translateX(calc(var(--wobble-x-4) * 1px * var(--intensity)))
+      translateY(calc(var(--wobble-y-4) * 1px * var(--intensity)))
+      rotate(calc(var(--wobble-r-4) * 1deg * var(--intensity)));
+  }
+}
+
+
 
   .banner__box {
     padding-top: 0;

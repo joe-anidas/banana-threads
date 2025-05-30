@@ -23,6 +23,90 @@
       assign paginate_by = 28
     endif
   -%}
+
+<style>
+   /* Or alternatively, apply to the section itself */
+  .section {
+    background: linear-gradient(180deg, rgba(212, 189, 255, 1), rgba(198, 221, 254, 1) 50.5%, rgba(198, 221, 254, 1) 100%);
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .title--primary {
+    color: #4A0072;
+    text-align: left;
+    font-size: 40px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    padding-top: 2rem;
+  
+  }
+  .collection-list__item {
+      margin-bottom: 4rem;
+    }
+  .collection-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .collection-list__item {
+    width: calc(25% - 1.125rem);
+    flex: 0 0 calc(25% - 1.125rem);
+    max-width: calc(25% - 1.125rem);
+    background: white;
+    padding: 1rem;
+    text-align: left;
+  }
+
+  .card__heading {
+    color: #4A0072;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: left;
+    margin: 0.5rem 0;
+  }
+
+  @media screen and (max-width: 750px) {
+    .collection-list {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 1rem 1.25rem;
+      margin: 0 -0.5rem;
+      scroll-padding-left: 1.25rem;
+      gap: 3px;
+    }
+
+    .collection-list__item {
+      scroll-snap-align: start;
+      flex: 0 0 70%;
+      min-width: 60%;
+      padding: 1rem;
+      margin: 0 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .collection-list__item:first-child {
+      margin-left: 1.25rem;
+    }
+    
+    .collection-list__item:last-child {
+      margin-right: 1.25rem;
+    }
+
+    .title--primary {
+      font-size: 36px;
+    }
+  }
+</style>
+
   {%- paginate collections by paginate_by -%}
     <ul
       class="collection-list grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"

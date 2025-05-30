@@ -268,7 +268,8 @@
     height: calc(100% - 40px);
     margin: -40px 0;
 }
-
+.footer-block--left .footer-block__cta {
+      margin-left: 30px;}
 .footer-block__cta {
     position: relative;
     display: inline-flex;
@@ -370,6 +371,10 @@
     .footer {
         margin-top: {{ section.settings.margin_top }}px;
     }
+
+.footer .footer-block__heading {
+    padding-right: 110px;
+}
     
     .section-{{ section.id }}-padding {
         padding-top: {{ section.settings.padding_top }}px;

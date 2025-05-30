@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
-
+    
+    <link rel="preload" href="{{ 'forte.woff' | asset_url }}" as="font" type="font/woff" crossorigin>
+    
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
@@ -99,6 +101,17 @@
         background-color: rgb(var(--color-background));
       }
 
+
+  @font-face {
+    font-family: 'Forte';
+    src: url('{{ "forte.woff" | asset_url }}') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+
+      
       :root {
         --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
         --font-body-style: {{ settings.type_body_font.style }};
@@ -386,5 +399,9 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+
+
+    
   </body>
 </html>

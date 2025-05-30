@@ -2072,7 +2072,10 @@ input[type='checkbox'] {
 .cart-count-bubble:empty {
   display: none;
 }
-
+.cart-count-bubble span {
+    color: #460e91;
+    margin-top: 1px;
+}
 .cart-count-bubble {
   position: absolute;
   background-color: rgb(var(--color-button));
@@ -2084,9 +2087,9 @@ input[type='checkbox'] {
   justify-content: center;
   align-items: center;
   font-size: 0.9rem;
-  bottom: 0.8rem;
+  bottom: 0.4rem;
   left: 2.2rem;
-  line-height: calc(1 + 0.1 / var(--font-body-scale));
+ 
 }
 
 /* utility-bar */

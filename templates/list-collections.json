@@ -12,7 +12,7 @@
     "main": {
       "type": "main-list-collections",
       "settings": {
-        "title": "Benny Madness",
+        "title": "Collections",
         "sort": "alphabetical",
         "image_ratio": "square",
         "columns_desktop": 3,
