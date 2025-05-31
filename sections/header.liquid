@@ -842,6 +842,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const searchForms = document.querySelectorAll('.header__search form');
   
   searchForms.forEach(form => {
+    // Handle form submission
     form.addEventListener('submit', function(e) {
       const input = this.querySelector('.search__input');
       if (!input.value.trim()) {
@@ -851,21 +852,35 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     const searchButton = form.querySelector('.search__button');
+    const searchInput = form.querySelector('.search__input');
+    const searchContainer = form.closest('.header__search');
+    
     if (searchButton) {
       searchButton.addEventListener('click', function(e) {
         e.preventDefault();
-        const searchContainer = this.closest('.header__search');
-        const input = form.querySelector('.search__input');
         
-        // Toggle active class
-        searchContainer.classList.toggle('active');
-        
-        // If becoming active, focus the input
-        if (searchContainer.classList.contains('active')) {
-          input.focus();
+        // If there's text in the input, submit the form
+        if (searchInput.value.trim()) {
+          form.submit();
+        } else {
+          // If no text, just focus the input
+          searchInput.focus();
         }
       });
     }
+
+    // Handle input focus
+    searchInput.addEventListener('focus', function() {
+      searchContainer.classList.add('active');
+    });
+
+    // Handle input blur
+    searchInput.addEventListener('blur', function() {
+      // Small delay to allow for click events on buttons
+      setTimeout(() => {
+        searchContainer.classList.remove('active');
+      }, 200);
+    });
   });
 
   // Close search when clicking outside
