@@ -1,0 +1,96 @@
+<style>
+  /* Main background color */
+  .template-search {
+    background-color: #DAD9FF !important;
+  }
+
+  /* Section padding */
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  /* Title styling */
+  .template-search__header .h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #460e91;
+      font-size: 30px;
+  }
+
+  /* Product grid container */
+  .product-grid-container {
+    background-color: transparent;
+  }
+
+  /* Product grid and items */
+  .template-search__results .product-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 1.5rem !important;
+  }
+
+  .template-search__results .grid__item {
+    width: calc(25% - 1.125rem) !important;
+    flex: 0 0 calc(25% - 1.125rem) !important;
+    max-width: calc(25% - 1.125rem) !important;
+    background: white;
+    padding: 1.25rem !important;
+    text-align: left !important;
+  }
+
+  /* Product title */
+  .template-search__results .card__information h3 {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #460e91 !important;
+    margin: 0.5rem 0;
+  }
+
+  /* Price styling */
+  .template-search__results .price {
+    color: #460e91 !important;
+    text-align: left !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+  }
+
+  /* Mobile responsiveness */
+  @media screen and (max-width: 750px) {
+    .template-search__results .grid__item {
+      width: calc(50% - 0.75rem) !important;
+      flex: 0 0 calc(50% - 0.75rem) !important;
+      max-width: calc(50% - 0.75rem) !important;
+    }
+
+    /* Horizontal scroll for mobile */
+    .template-search__results .product-grid {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch !important;
+      padding: 1rem 1.5rem !important;
+      margin: 0 !important;
+      scroll-padding-left: 1.5rem !important;
+      gap: 1.5rem !important;
+    }
+
+    .template-search__results .product-grid::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    .template-search__results .grid__item {
+      scroll-snap-align: start !important;
+      flex: 0 0 calc(100% - 3rem) !important;
+      min-width: calc(100% - 3rem) !important;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+</style>

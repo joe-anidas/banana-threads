@@ -896,6 +896,70 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 {%- endif -%}
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize menu drawer
+  class MenuDrawer extends HTMLElement {
+    constructor() {
+      super();
+      this.mainDetailsToggle = this.querySelector('details');
+      this.addEventListener('keyup', this.onKeyUp.bind(this));
+      this.addEventListener('focusout', this.onFocusOut.bind(this));
+      this.bindEvents();
+    }
+
+    bindEvents() {
+      this.querySelectorAll('summary').forEach(summary => summary.addEventListener('click', this.onSummaryClick.bind(this)));
+      this.querySelectorAll('button:not(.localization-selector__button)').forEach(button => button.addEventListener('click', this.onCloseButtonClick.bind(this)));
+    }
+
+    onKeyUp(event) {
+      if (event.code.toUpperCase() !== 'ESCAPE') return;
+      const openDetailsElement = event.target.closest('details[open]');
+      if (!openDetailsElement) return;
+      openDetailsElement === this.mainDetailsToggle ? this.closeMenuDrawer(event, this.mainDetailsToggle.querySelector('summary')) : this.closeSubmenu(openDetailsElement);
+    }
+
+    onSummaryClick(event) {
+      const summaryElement = event.currentTarget;
+      const detailsElement = summaryElement.parentNode;
+      const isOpen = detailsElement.hasAttribute('open');
+
+      if (detailsElement === this.mainDetailsToggle) {
+        if (isOpen) event.preventDefault();
+        isOpen ? this.closeMenuDrawer(event, summaryElement) : this.openMenuDrawer(summaryElement);
+      }
+    }
+
+    openMenuDrawer(summaryElement) {
+      setTimeout(() => {
+        this.mainDetailsToggle.classList.add('menu-opening');
+      });
+      summaryElement.setAttribute('aria-expanded', true);
+      document.body.classList.add('overflow-hidden');
+    }
+
+    closeMenuDrawer(event, elementToFocus) {
+      if (!elementToFocus) return;
+      this.mainDetailsToggle.classList.remove('menu-opening');
+      this.mainDetailsToggle.querySelectorAll('details').forEach(details => {
+        details.removeAttribute('open');
+        details.classList.remove('menu-opening');
+      });
+      document.body.classList.remove('overflow-hidden');
+      elementToFocus.focus();
+    }
+
+    onCloseButtonClick(event) {
+      const detailsElement = event.currentTarget.closest('details');
+      this.closeMenuDrawer(event, detailsElement.querySelector('summary'));
+    }
+  }
+
+  customElements.define('header-drawer', MenuDrawer);
+});
+</script>
+
 {% schema %}
 {
   "name": "t:sections.header.name",
