@@ -1,5 +1,9 @@
 {% comment %}
   Renders a header search modal. Should be used with 'header.liquid'
+  Modified for Souled Store style expanding search bar with:
+  - Custom placeholder text
+  - Empty search prevention
+  - Focus retention on empty search
 
   Accepts:
   - input_id: {String} Id for the search input element (required)
@@ -7,102 +11,102 @@
   Usage:
   {% render 'header-search', input_id: 'My-Id'%}
 {% endcomment %}
-
-<details-modal class="header__search">
-  <details>
-    <summary
-      class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle"
-      aria-haspopup="dialog"
-      aria-label="{{ 'general.search.search' | t }}"
-    >
-      <span>
-        <span class="svg-wrapper">
-          <i class="fa-solid fa-magnifying-glass" style="font-size: 2rem;"></i>
-        </span>
-        <span class="svg-wrapper header__icon-close">
-          <i class="fa-solid fa-magnifying-glass" style="font-size: 2rem;"></i>
-        </span>
-      </span>
-    </summary>
-    <div
-      class="search-modal modal__content gradient"
-      role="dialog"
-      aria-modal="true"
-      aria-label="{{ 'general.search.search' | t }}"
-    >
-      <div class="modal-overlay"></div>
-      <div
-        class="search-modal__content{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} search-modal__content-top{% else %} search-modal__content-bottom{% endif %}"
-        tabindex="-1"
-      >
-        {%- if settings.predictive_search_enabled -%}
-          <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
-        {%- else -%}
-          <search-form class="search-modal__form">
-        {%- endif -%}
-        <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
-          <div class="field">
-            <input
-              class="search__input field__input"
-              id="{{ input_id }}"
-              type="search"
-              name="q"
-              value="{{ search.terms | escape }}"
-              placeholder="{{ 'general.search.search' | t }}"
-              {%- if settings.predictive_search_enabled -%}
-                role="combobox"
-                aria-expanded="false"
-                aria-owns="predictive-search-results"
-                aria-controls="predictive-search-results"
-                aria-haspopup="listbox"
-                aria-autocomplete="list"
-                autocorrect="off"
-                autocomplete="off"
-                autocapitalize="off"
-                spellcheck="false"
-              {%- endif -%}
-            >
-            <label class="field__label" for="{{ input_id }}">{{ 'general.search.search' | t }}</label>
-            <input type="hidden" name="options[prefix]" value="last">
-            <button
-              type="reset"
-              class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
-              aria-label="{{ 'general.search.reset' | t }}"
-            >
-              <span class="svg-wrapper">
-                {{- 'icon-reset.svg' | inline_asset_content -}}
-              </span>
-            </button>
-            <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
-              <span class="svg-wrapper">
-                {{- 'icon-search.svg' | inline_asset_content -}}
-              </span>
-            </button>
-          </div>
-
+<style>
+.field__input {
+    background-color: transparent !important;}
+</style>
+<div class="header__search">
+  <div class="search-modal__form">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
+      <div class="field">
+        <input
+          class="search__input field__input"
+          id="{{ input_id }}"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="What are you looking for?"
           {%- if settings.predictive_search_enabled -%}
-            <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
-              {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
-            </div>
-
-            <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+            role="combobox"
+            aria-expanded="false"
+            aria-owns="predictive-search-results"
+            aria-controls="predictive-search-results"
+            aria-haspopup="listbox"
+            aria-autocomplete="list"
+            autocorrect="off"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
           {%- endif -%}
-        </form>
-        {%- if settings.predictive_search_enabled -%}
-          </predictive-search>
-        {%- else -%}
-          </search-form>
-        {%- endif -%}
+        >
         <button
-          type="button"
-          class="search-modal__close-button modal__close-button link link--text focus-inset"
-          aria-label="{{ 'accessibility.close' | t }}"
+          type="reset"
+          class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+          aria-label="{{ 'general.search.reset' | t }}"
         >
           <span class="svg-wrapper">
             {{- 'icon-close.svg' | inline_asset_content -}}
           </span>
         </button>
+        <button 
+          type="submit"
+          class="search__button field__button" 
+          aria-label="{{ 'general.search.search' | t }}"
+          onclick="if(!this.closest('form').querySelector('.search__input').value.trim()) { this.closest('form').querySelector('.search__input').focus(); return false; }"
+        >
+          <span class="svg-wrapper">
+            <i class="fa-solid fa-magnifying-glass" style="font-size: 2rem;"></i>
+          </span>
+        </button>
       </div>
-    </div>
-  </details>
-</details-modal>
+
+      {%- if settings.predictive_search_enabled -%}
+        <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+          {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+        </div>
+
+        <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+      {%- endif -%}
+    </form>
+  </div>
+</div>
+
+<style>
+  /* Ensure search box stays visible when empty */
+  .header__search details[open] > .search-modal {
+    display: none !important;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchForms = document.querySelectorAll('.header__search form');
+  
+  searchForms.forEach(form => {
+    const searchButton = form.querySelector('.search__button');
+    const searchInput = form.querySelector('.search__input');
+    const searchContainer = form.closest('.header__search');
+    
+    // Handle search button click
+    searchButton.addEventListener('click', function(e) {
+      if (!searchInput.value.trim()) {
+        e.preventDefault();
+        searchContainer.classList.add('active');
+        searchInput.focus();
+      }
+    });
+    
+    // Handle input focus
+    searchInput.addEventListener('focus', function() {
+      searchContainer.classList.add('active');
+    });
+    
+    // Handle input blur
+    searchInput.addEventListener('blur', function() {
+      if (!this.value.trim()) {
+        searchContainer.classList.remove('active');
+      }
+    });
+  });
+});
+</script>

@@ -165,95 +165,32 @@
     box-shadow: none !important;
   }
 /* MOBILE HORIZONTAL SCROLL (SINGLE ITEM WITH PROPER GUTTER) */
+
 @media screen and (max-width: 750px) {
+  .grid__item {
+    width: calc(50% - 0.75rem) !important;
+    flex: 0 0 calc(50% - 0.75rem) !important;
+    max-width: calc(50% - 0.75rem) !important;
+  }
+  .card__information h3, .product-title{
+    font-size: 14px !important;
+  }
   .product-grid {
     display: flex !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding: 1rem 1.5rem !important; /* Added top/bottom padding and consistent side padding */
-    margin: 0 !important; /* Reset any margins */
-    scroll-padding-left: 1.5rem !important; /* Ensures first item snaps properly */
-    gap: 1.5rem !important; /* Restore gap between items */
+    flex-wrap: wrap !important;
+    overflow-x: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    gap: 1.5rem !important;
   }
-
-  .product-grid::-webkit-scrollbar {
-    display: none !important;
+  
+  .benny-madness-title {
+    font-size: 36px;
   }
-
-  .grid__item {
-    scroll-snap-align: start !important;
-    flex: 0 0 calc(100% - 3rem) !important; /* 100% width minus total horizontal padding */
-    min-width: calc(100% - 3rem) !important;
-    margin-right: 0 !important; /* Remove margin-right since we're using gap */
-  }
-
-  /* Remove negative margins that might be causing issues */
-  .slider-mobile-gutter {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
+  
   .collection__view-all .button--custom {
-  /* Existing styles */
-  background-color: #5b00ed !important;
-  color: #ffffff !important;
-  font-weight: 700 !important;
-  border-radius: 999px !important;
-  padding: 15px 30px !important;
-  font-size: 20px !important;
-  font-family: 'Poppins', sans-serif;
-  text-transform: uppercase;
-  display: inline-block;
-  margin-top: 2rem;
-  border: none !important;
-  min-width: unset !important;
-  min-height: unset !important;
-  position: relative;
-  z-index: 2;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  text-decoration: none !important;
-  
-  /* Add this to move it up 10px */
-  transform: translateY(-10px);
-}
-
-/* If you want to adjust the container as well */
-.collection__view-all {
-  margin-top: -10px; /* Optional: compensates for the button moving up */
-}
-  .product-grid {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding: 1rem 1.25rem !important; /* Reduced side padding */
-    margin: 0 -0.5rem !important; /* Negative margin to allow peek */
-    scroll-padding-left: 1.25rem !important;
-    gap: 3px !important; /* Remove gap since we're using padding */
-  }
-
-  .product-grid::-webkit-scrollbar {
-    display: none !important;
-  }
-
-  .grid__item {
-    scroll-snap-align: start !important;
-    flex: 0 0 70% !important; /* 80% width for main card */
-    min-width: 60% !important;
-    margin-right: 0 !important;
-    padding: 1rem !important;
-    margin: 0 0.5rem !important; /* Small margin for peek effect */
-  }
-
-  /* Adjust first and last items to align properly */
-  .grid__item:first-child {
-    margin-left: 1.25rem !important;
-  }
-  
-  .grid__item:last-child {
-    margin-right: 1.25rem !important;
+    padding: 12px 24px !important;
+    font-size: 16px !important;
   }
 }
   @media screen and (min-width: 750px) {

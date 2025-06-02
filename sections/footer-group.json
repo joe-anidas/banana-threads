@@ -21,7 +21,7 @@
         "refund_link": "shopify://policies/refund-policy",
         "terms_link": "shopify://policies/terms-of-service",
         "privacy_link": "shopify://policies/privacy-policy",
-        "contact_link": "shopify://policies/contact-information",
+        "contact_link": "shopify://pages/contact-us",
         "newsletter_heading": "BE A BANANA INSIDER",
         "email_placeholder": "Your email",
         "newsletter_button": "Yes, I'm In",

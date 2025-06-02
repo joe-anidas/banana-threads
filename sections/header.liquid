@@ -34,22 +34,11 @@
   }
 }
 
-
-
-
-
-  
 .link,
 .customer a {
 
   text-decoration: none;}
 
-  .search-modal__content{
-    width: 50%;
-  }
-  .search-modal .modal__content .gradient{
-    background-color: transparent;
-  }
 
  
 .header__menu-item.list-menu__item.list-menu__item--link:hover {
@@ -137,60 +126,6 @@
     }
   }
 </style>
-<!-- Add this right after your existing styles but before the closing </style> tag -->
-<style>
-  /* Search box improvements */
-  .header__search .search__input {
-    width: 40px;
-    height: 40px;
-    padding-left: 40px;
-    padding-right: 0;
-    border-radius: 5px;
-    border: 1px solid transparent;
-    transition: width 0.55s ease, padding 0.55s ease;
-    background-color: transparent;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-    color: #000000 !important;
-  }
-  
-  .header__search:hover .search__input,
-  .header__search .search__input:focus,
-  .header__search .search__input:not(:placeholder-shown) {
-    width: 325px;
-    padding-left: 15px;
-    padding-right: 75px;
-    background: #eee;
-    outline: none;
-  }
-  
-  .header__search .search__button .fa-magnifying-glass {
-    color: #460e91;
-  }
-  
-  .header__search:hover .search__button .fa-magnifying-glass {
-    color: #000000 !important;
-  }
-  
-  .header__search .reset__button .svg-wrapper {
-    color: #000000 !important;
-  }
-  
-  .header__search .search__input:not(:placeholder-shown) {
-    color: #000000 !important;
-  }
-
-  .header__search .search__input::placeholder {
-    color: #000000 !important;
-    opacity: 1;
-  }
-</style>
-
-<!-- Add this JavaScript right before the closing </script> tag -->
-
 
 {%- style -%}
   .header {
@@ -210,7 +145,6 @@
     .section-header {
       margin-bottom: {{ section.settings.margin_bottom }}px;
     }
-    
   }
 
   @media screen and (min-width: 990px) {
@@ -308,187 +242,7 @@ body:has(.banner__description) .header__icon .cart-count-bubble span{
   </style>
 {% endif %}
 
-  <style> /* Souled Store-inspired search bar */
-/* Souled Store-inspired search bar */
-.header__search {
-  position: relative;
-  padding-top: 20px; /* Pushes everything down by 20px */
-}
 
-.header__search .search__input {
-  width: 40px;
-  height: 40px;
-  padding-left: 40px;
-  padding-right: 0;
-  border-radius: 5px;
-  border: 1px solid transparent;
-  transition: width 0.55s ease, padding 0.55s ease;
-  background-color: transparent;
-  position: absolute;
-  right: 0;
-  top: 50%; /* Restored original positioning */
-  transform: translateY(-50%);
-  z-index: 1;
-}
-    .field__input:focus,
-    .field__input:not(:placeholder-shown)  {
-  padding: 0;
-
-}
-
-.header__search:hover .search__input,
-.header__search .search__input:focus {
-  width: 325px;
-  padding-left: 15px;
-  padding-right: 75px;
-  background: #eee;
-  outline: none;
-}
-
-.header__search .search__button {
-  position: absolute;
-  right: 0;
-  top: 50%; /* Restored original positioning */
-  transform: translateY(-50%);
-  z-index: 2;
-  background: transparent;
-  border: none;
-  padding: 0 10px;
-  cursor: pointer;
-}
-
-.header__search .reset__button {
-  position: absolute;
-  right: 40px;
-  top: 50%; /* Restored original positioning */
-  transform: translateY(-50%);
-  z-index: 2;
-  background: transparent;
-  border: none;
-  padding: 0 10px;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.header__search .search__input:not(:placeholder-shown) + .reset__button {
-  opacity: 1;
-}
-
-/* Hide the default search modal */
-.header__search details[open] > .search-modal {
-  display: none !important;
-}
-
-/* Adjust search icon position */
-.header__icon--search .svg-wrapper {
-  position: relative;
-  z-index: 3;
-  top: 20px; /* Pushes just the icon down */
-}
-
-/* Mobile adjustments */
-@media screen and (max-width: 749px) {
-  .header__search {
-    padding-top: 20px !important;
-    position: relative;
-    width: auto;
-    margin-right: -5px;
-  }
-
-  .header__search .search__input {
-    position: absolute;
-    right: 0;
-    width: 0;
-    padding: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    background: #eee;
-    border-radius: 5px;
-    height: 40px;
-  }
-
-  .header__search.active .search__input {
-    width: calc(100vw - 120px); /* Adjust based on hamburger menu width */
-    padding: 10px 40px 10px 15px;
-    opacity: 1;
-    visibility: visible;
-    right: 0;
-    left: auto;
-  }
-
-  .header__search .search__button {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    background: transparent;
-    border: none;
-    padding: 10px;
-  }
-
-  .header__search .reset__button {
-    position: absolute;
-    right: 40px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    background: transparent;
-    border: none;
-    padding: 10px;
-  }
-
-  .header__search.active .search__button {
-    right: 3px;
-  }
-
-  .header__search.active .reset__button {
-    right: 50px;
-  }
-
-  /* Ensure the search container doesn't overlap with hamburger menu */
-  header-drawer {
-    position: relative;
-    z-index: 3;
-  }
-}
-
-    .header__search .search__input {
- 
-    padding-right: 40px;}
-    /* Search box text color */
-.header__search .search__input {
-  color: #000000 !important; /* Black text color */
-}
-
-/* Search icon color */
-.header__search .search__button .fa-magnifying-glass {
-  color: #460e91; /* Default purple color */
-}
-
-/* Hover effects for search */
-.header__search:hover .search__button .fa-magnifying-glass {
-  color: #000000 !important; /* Black on hover */
-}
-
-/* Placeholder text color */
-.header__search .search__input::placeholder {
-  color: #000000 !important; /* Black placeholder text */
-  opacity: 1; /* Ensure full visibility */
-}
-
-/* Reset button color */
-.header__search .reset__button .svg-wrapper {
-  color: #000000 !important;
-}
-
-/* Ensure text remains black when typing */
-.header__search .search__input:not(:placeholder-shown) {
-  color: #000000 !important;
-}
-  </style>
  
 
 <{{ header_tag }}
@@ -837,128 +591,8 @@ body:has(.banner__description) .header__icon .cart-count-bubble span{
       },
       "url": {{ request.origin | append: page.url | json }}
     }
-  </script><script>
-document.addEventListener('DOMContentLoaded', function() {
-  const searchForms = document.querySelectorAll('.header__search form');
-  
-  searchForms.forEach(form => {
-    // Handle form submission
-    form.addEventListener('submit', function(e) {
-      const input = this.querySelector('.search__input');
-      if (!input.value.trim()) {
-        e.preventDefault();
-        input.focus();
-      }
-    });
-    
-    const searchButton = form.querySelector('.search__button');
-    const searchInput = form.querySelector('.search__input');
-    const searchContainer = form.closest('.header__search');
-    
-    if (searchButton) {
-      searchButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // If there's text in the input, submit the form
-        if (searchInput.value.trim()) {
-          form.submit();
-        } else {
-          // If no text, just focus the input
-          searchInput.focus();
-        }
-      });
-    }
-
-    // Handle input focus
-    searchInput.addEventListener('focus', function() {
-      searchContainer.classList.add('active');
-    });
-
-    // Handle input blur
-    searchInput.addEventListener('blur', function() {
-      // Small delay to allow for click events on buttons
-      setTimeout(() => {
-        searchContainer.classList.remove('active');
-      }, 200);
-    });
-  });
-
-  // Close search when clicking outside
-  document.addEventListener('click', function(e) {
-    const searchContainers = document.querySelectorAll('.header__search');
-    searchContainers.forEach(container => {
-      if (!container.contains(e.target)) {
-        container.classList.remove('active');
-      }
-    });
-  });
-});
-</script>
+  </script>
 {%- endif -%}
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize menu drawer
-  class MenuDrawer extends HTMLElement {
-    constructor() {
-      super();
-      this.mainDetailsToggle = this.querySelector('details');
-      this.addEventListener('keyup', this.onKeyUp.bind(this));
-      this.addEventListener('focusout', this.onFocusOut.bind(this));
-      this.bindEvents();
-    }
-
-    bindEvents() {
-      this.querySelectorAll('summary').forEach(summary => summary.addEventListener('click', this.onSummaryClick.bind(this)));
-      this.querySelectorAll('button:not(.localization-selector__button)').forEach(button => button.addEventListener('click', this.onCloseButtonClick.bind(this)));
-    }
-
-    onKeyUp(event) {
-      if (event.code.toUpperCase() !== 'ESCAPE') return;
-      const openDetailsElement = event.target.closest('details[open]');
-      if (!openDetailsElement) return;
-      openDetailsElement === this.mainDetailsToggle ? this.closeMenuDrawer(event, this.mainDetailsToggle.querySelector('summary')) : this.closeSubmenu(openDetailsElement);
-    }
-
-    onSummaryClick(event) {
-      const summaryElement = event.currentTarget;
-      const detailsElement = summaryElement.parentNode;
-      const isOpen = detailsElement.hasAttribute('open');
-
-      if (detailsElement === this.mainDetailsToggle) {
-        if (isOpen) event.preventDefault();
-        isOpen ? this.closeMenuDrawer(event, summaryElement) : this.openMenuDrawer(summaryElement);
-      }
-    }
-
-    openMenuDrawer(summaryElement) {
-      setTimeout(() => {
-        this.mainDetailsToggle.classList.add('menu-opening');
-      });
-      summaryElement.setAttribute('aria-expanded', true);
-      document.body.classList.add('overflow-hidden');
-    }
-
-    closeMenuDrawer(event, elementToFocus) {
-      if (!elementToFocus) return;
-      this.mainDetailsToggle.classList.remove('menu-opening');
-      this.mainDetailsToggle.querySelectorAll('details').forEach(details => {
-        details.removeAttribute('open');
-        details.classList.remove('menu-opening');
-      });
-      document.body.classList.remove('overflow-hidden');
-      elementToFocus.focus();
-    }
-
-    onCloseButtonClick(event) {
-      const detailsElement = event.currentTarget.closest('details');
-      this.closeMenuDrawer(event, detailsElement.querySelector('summary'));
-    }
-  }
-
-  customElements.define('header-drawer', MenuDrawer);
-});
-</script>
 
 {% schema %}
 {

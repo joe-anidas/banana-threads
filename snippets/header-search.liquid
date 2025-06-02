@@ -11,7 +11,10 @@
   Usage:
   {% render 'header-search', input_id: 'My-Id'%}
 {% endcomment %}
-
+<style>
+.field__input {
+    background-color: transparent !important;}
+</style>
 <div class="header__search">
   <div class="search-modal__form">
     <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">

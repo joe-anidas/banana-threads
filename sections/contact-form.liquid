@@ -3,14 +3,34 @@
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-
+    padding-bottom:0px;
+    
+  }.field__input:not(:placeholder-shown) {
+    padding: 10px;
+}.field__input:focus, .field__input:not(:placeholder-shown), .field__input:-webkit-autofill, .customer .field input:focus, .customer .field input:not(:placeholder-shown), .customer .field input:-webkit-autofill {
+    padding: 2.2rem 1.5rem .8rem 2rem;
+    margin: var(--inputs-border-width);
+}.contact__button{
+    margin-top: 2rem;
+}
   @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+    .section-template--18606953038021__main-padding {
+        padding-top: 36px;
+        padding-bottom: 0px !important;
     }
+   .section-template--18606953038021__form-padding{
+         padding-top: 5px !important;
+    }
+}
+
+  @media screen and (max-width: 750px) {
+ .section-template--18606953038021__main-padding {
+    padding-top: 27px;
+    padding-bottom: 0px !important;
+}.section-template--18606953038021__form-padding{
+         padding-top: 5px !important;
+    }
+}
   }
 {%- endstyle -%}
 
@@ -23,6 +43,7 @@
     {%- else -%}
       <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
     {%- endif -%}
+    <p class="contact__subheading">Drop your message here. Whether it's a question, a compliment or mild confusion - we're all ears</p>
     {%- liquid
       assign contact_form_class = 'isolate'
       if settings.animations_reveal_on_scroll
@@ -33,7 +54,7 @@
       {%- if form.posted_successfully? -%}
         <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
           {{- 'icon-success.svg' | inline_asset_content -}}
-          {{ 'templates.contact.form.post_success' | t }}
+          Thanks for contacting us. We'll get back to you soon.
         </h2>
       {%- elsif form.errors -%}
         <div class="form__message">
@@ -60,9 +81,9 @@
             id="ContactForm-name"
             name="contact[{{ 'templates.contact.form.name' | t }}]"
             value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-            placeholder="{{ 'templates.contact.form.name' | t }}"
+            placeholder="Name"
           >
-          <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+          <label class="field__label" for="ContactForm-name">Name</label>
         </div>
         <div class="field field--with-error">
           <input
@@ -79,10 +100,10 @@
               aria-invalid="true"
               aria-describedby="ContactForm-email-error"
             {% endif %}
-            placeholder="{{ 'templates.contact.form.email' | t }}"
+            placeholder="Email"
           >
           <label class="field__label" for="ContactForm-email">
-            {{- 'templates.contact.form.email' | t }}
+            Email
             <span aria-hidden="true">*</span></label
           >
           {%- if form.errors contains 'email' -%}
@@ -100,37 +121,25 @@
         </div>
       </div>
       <div class="field">
-        <input
-          type="tel"
-          id="ContactForm-phone"
-          class="field__input"
-          autocomplete="tel"
-          name="contact[{{ 'templates.contact.form.phone' | t }}]"
-          pattern="[0-9\-]*"
-          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-          placeholder="{{ 'templates.contact.form.phone' | t }}"
-        >
-        <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
-      </div>
-      <div class="field">
         <textarea
           rows="10"
           id="ContactForm-body"
           class="text-area field__input"
           name="contact[{{ 'templates.contact.form.comment' | t }}]"
-          placeholder="{{ 'templates.contact.form.comment' | t }}"
+          placeholder="Message"
         >
           {{- form.body -}}
         </textarea>
         <label class="form__label field__label" for="ContactForm-body">
-          {{- 'templates.contact.form.comment' | t -}}
+          Message
         </label>
       </div>
       <div class="contact__button">
         <button type="submit" class="button">
-          {{ 'templates.contact.form.send' | t }}
+          Submit
         </button>
       </div>
+      <p class="contact__footer-text">Prefer the old school way? Drop us a line at <a href="mailto:support@bananathreads.com" style="color: #0066cc; text-decoration: underline;">support@bananathreads.com</a></p>
     {%- endform -%}
   </div>
 </div>
@@ -147,7 +156,7 @@
     {
       "type": "inline_richtext",
       "id": "heading",
-      "default": "t:sections.contact-form.settings.title.default",
+      "default": "Contact Us",
       "label": "t:sections.contact-form.settings.title.label"
     },
     {
