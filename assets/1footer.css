@@ -2,7 +2,30 @@
     --color-foreground: none !important;
         --inputs-radius: 30px !important;
   }
-
+.social-wrapper {
+    display: flex;
+    gap: 10px;
+    right: 55px;
+    position: relative;
+}.list.list-payment {
+    justify-content: center;
+    padding: 0;
+    position: absolute;
+    left: auto;
+    right: 10px;
+    bottom: -465px;
+}
+.list-payment {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
     /* Left Section Styling */
 .footer-block--left {
     flex: 1;
@@ -324,9 +347,10 @@
 
 .footer__content-bottom-wrapper {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
     justify-content: center;
+  padding: 0 80px;
 }
 
 .list.list-payment {
@@ -388,6 +412,13 @@
         flex-wrap: wrap;
         gap: 15px;
     }
+  .social-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    right: 0px;
+    position: relative;
+}
     
     .footer-block__cta {
         height: 45px;
@@ -417,4 +448,12 @@
       
         align-items: center;
     }
+  .list.list-payment {
+    justify-content: center;
+    padding: 0;
+    position: relative;
+    left: auto;
+    right: 10px;
+    bottom: 0px;
+}
 }

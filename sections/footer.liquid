@@ -7,13 +7,157 @@
  .footer-block__links .list-menu__item{
   color: #000000 !important;
 }
-.social-wrapper {
-    display: flex;
+/* Remove the absolute positioning and use proper flexbox/grid layout */
+
+/* Payment methods styling - ensure same line alignment */
+.footer__payment {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.list-payment {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap; /* Prevent wrapping to keep on same line */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Bottom wrapper - Force same line alignment */
+.footer__content-bottom-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 40px; /* Ensure consistent height */
+}
+
+/* Alternative grid approach */
+.footer__content-bottom-wrapper-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  min-height: 40px;
+}
+
+/* Copyright section - ensure it stays inline */
+.footer__copyright {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.copyright__content {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Mobile responsiveness - keep on same line */
+@media screen and (max-width: 749px) {
+  .footer__content-bottom-wrapper {
+    justify-content: space-between;
     align-items: center;
     gap: 10px;
-    right: 55px;
-    position: relative;
+    flex-wrap: nowrap; /* Keep on same line even on mobile */
+  }
+  
+  .footer__copyright {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .copyright__content {
+    font-size: 12px; /* Smaller text on mobile if needed */
+  }
+  
+  .footer__payment {
+    margin: 0;
+    flex-shrink: 0;
+  }
+  
+  .list-payment {
+    justify-content: flex-end;
+    gap: 6px; /* Smaller gap on mobile */
+  }
+  
+  .list-payment__item .icon {
+    width: 32px; /* Slightly smaller icons on mobile */
+    height: 20px;
+  }
 }
+
+/* Force single line layout - add this class if needed */
+.footer__content-bottom-wrapper.force-single-line {
+  flex-wrap: nowrap !important;
+  overflow-x: auto; /* Allow horizontal scroll if content is too wide */
+}
+
+/* Additional styling for better visual hierarchy */
+.footer__content-bottom {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 10px;
+  margin-top: 5px;
+}
+
+/* Ensure payment icons are properly sized */
+.list-payment__item .icon {
+  width: 38px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* Remove any conflicting styles */
+.list.list-payment {
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+}
+/* Payment methods styling */
+.footer__payment {
+  margin-left: auto;
+}
+
+.list-payment {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.footer__content-bottom-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 749px) {
+  .footer__content-bottom-wrapper {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .footer__payment {
+    margin-left: 0;
+  }
+  
+  .list-payment {
+    justify-content: center;
+  }
+}
+
 {%- endstyle -%}
 
 <footer class="footer section-{{ section.id }}-padding">
@@ -156,28 +300,25 @@
 
   <div class="footer__content-bottom">
     <div class="footer__content-bottom-wrapper page-width">
-      <div class="footer__column footer__column--info">
-        {%- if section.settings.payment_enable -%}
-          <div class="footer__payment">
-            <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
-            <ul class="list list-payment" role="list">
-              {%- for type in shop.enabled_payment_types -%}
-                <li class="list-payment__item">
-                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                </li>
-              {%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
-      </div>
-    </div>
-    <div class="footer__content-bottom-wrapper page-width">
       <div class="footer__copyright caption">
         <small class="copyright__content"
           >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}}
         </small>
         <!-- <small class="copyright__content">{{ powered_by_link }}</small> -->
       </div>
+      
+      {%- if section.settings.payment_enable -%}
+        <div class="footer__payment">
+          <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+          <ul class="list list-payment" role="list">
+            {%- for type in shop.enabled_payment_types -%}
+              <li class="list-payment__item">
+                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
     </div>
   </div>
 </footer>

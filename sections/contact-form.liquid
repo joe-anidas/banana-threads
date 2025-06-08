@@ -5,7 +5,17 @@
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom:0px;
     
-  }.field__input:not(:placeholder-shown) {
+  }
+  .contact__success-message {
+    /* margin-top: 1rem; */
+    /* margin-bottom: 1rem; */
+    text-align: left;
+    position: absolute;
+    right: 0px;
+    left: auto;
+    bottom: 50px !important;
+}
+  .field__input:not(:placeholder-shown) {
     padding: 10px;
 }.field__input:focus, .field__input:not(:placeholder-shown), .field__input:-webkit-autofill, .customer .field input:focus, .customer .field input:not(:placeholder-shown), .customer .field input:-webkit-autofill {
     padding: 2.2rem 1.5rem .8rem 2rem;
@@ -13,6 +23,22 @@
 }.contact__button{
     margin-top: 2rem;
 }
+
+/* Success message positioning */
+.contact__success-message {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.contact__success-message .form-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #28a745;
+    font-weight: 500;
+}
+
   @media screen and (min-width: 750px) {
     .section-template--18606953038021__main-padding {
         padding-top: 36px;
@@ -27,11 +53,19 @@
  .section-template--18606953038021__main-padding {
     padding-top: 27px;
     padding-bottom: 0px !important;
-}.section-template--18606953038021__form-padding{
+}
+    .section-template--18606953038021__form-padding{
          padding-top: 5px !important;
     }
+    .contact__success-message {
+    text-align: left;
+    position: absolute;
+    right: 0px;
+    left: 135px !important;
+    bottom: 58px !important;
 }
-  }
+}
+  
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
@@ -51,12 +85,7 @@
       endif
     -%}
     {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
-      {%- if form.posted_successfully? -%}
-        <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
-          {{- 'icon-success.svg' | inline_asset_content -}}
-          Thanks for contacting us. We'll get back to you soon.
-        </h2>
-      {%- elsif form.errors -%}
+      {%- if form.errors -%}
         <div class="form__message">
           <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
             {{- 'icon-error.svg' | inline_asset_content -}}
@@ -139,6 +168,17 @@
           Submit
         </button>
       </div>
+      
+      {%- comment -%} Success message moved here - near submit button on left side {%- endcomment -%}
+      {%- if form.posted_successfully? -%}
+        <div class="contact__success-message">
+          <h2 class="form-status form__message" tabindex="-1" autofocus>
+            {{- 'icon-success.svg' | inline_asset_content -}}
+            Thanks for contacting us. We'll get back to you soon.
+          </h2>
+        </div>
+      {%- endif -%}
+      
       <p class="contact__footer-text">Prefer the old school way? Drop us a line at <a href="mailto:support@bananathreads.com" style="color: #0066cc; text-decoration: underline;">support@bananathreads.com</a></p>
     {%- endform -%}
   </div>

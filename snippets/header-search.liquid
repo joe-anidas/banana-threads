@@ -11,19 +11,17 @@
   Usage:
   {% render 'header-search', input_id: 'My-Id'%}
 {% endcomment %}
-<style>
-.field__input {
-    background-color: transparent !important;}
-</style>
+
 <div class="header__search">
   <div class="search-modal__form">
-    <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form" onsubmit="return this.querySelector('.search__input').value.trim() !== ''">
       <div class="field">
         <input
           class="search__input field__input"
           id="{{ input_id }}"
           type="search"
           name="q"
+        
           value="{{ search.terms | escape }}"
           placeholder="What are you looking for?"
           {%- if settings.predictive_search_enabled -%}
@@ -38,6 +36,7 @@
             autocapitalize="off"
             spellcheck="false"
           {%- endif -%}
+          required
         >
         <button
           type="reset"
@@ -49,7 +48,6 @@
           </span>
         </button>
         <button 
-          type="submit"
           class="search__button field__button" 
           aria-label="{{ 'general.search.search' | t }}"
           onclick="if(!this.closest('form').querySelector('.search__input').value.trim()) { this.closest('form').querySelector('.search__input').focus(); return false; }"
@@ -77,36 +75,3 @@
     display: none !important;
   }
 </style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const searchForms = document.querySelectorAll('.header__search form');
-  
-  searchForms.forEach(form => {
-    const searchButton = form.querySelector('.search__button');
-    const searchInput = form.querySelector('.search__input');
-    const searchContainer = form.closest('.header__search');
-    
-    // Handle search button click
-    searchButton.addEventListener('click', function(e) {
-      if (!searchInput.value.trim()) {
-        e.preventDefault();
-        searchContainer.classList.add('active');
-        searchInput.focus();
-      }
-    });
-    
-    // Handle input focus
-    searchInput.addEventListener('focus', function() {
-      searchContainer.classList.add('active');
-    });
-    
-    // Handle input blur
-    searchInput.addEventListener('blur', function() {
-      if (!this.value.trim()) {
-        searchContainer.classList.remove('active');
-      }
-    });
-  });
-});
-</script>

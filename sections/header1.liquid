@@ -21,10 +21,6 @@
 .header__menu-item.list-menu__item.list-menu__item--link {
   transition: color 0.3s ease;
 
-}@media screen and (max-width: 749px) {
-  .header__search {
-    display: none !important;
-  }
 }
 @media screen and (max-width: 749px) {
     .menu-drawer .list-social{
@@ -164,7 +160,7 @@
   .header__search:hover .search__input,
   .header__search .search__input:focus,
   .header__search .search__input:not(:placeholder-shown) {
-    width: 32px;
+    width: 325px;
     padding-left: 15px;
     padding-right: 75px;
     background: #eee;
@@ -339,23 +335,13 @@ body:has(.banner__description) .header__icon .cart-count-bubble span{
   padding: 0;
 
 }
-/* Change search icon color */
-.header__search .search__button .icon {
-  color: #000000 !important ; /* Red color example - change to your desired color */
-}/* Change search icon color to white */
-.header__search .search__button .icon {
-  color: white !important; /* Fallback */
-}
 
-.header__search .search__button .icon svg {
-  fill: white !important; /* Overrides SVG fill */
-}
 .header__search:hover .search__input,
 .header__search .search__input:focus {
   width: 325px;
   padding-left: 15px;
   padding-right: 75px;
-  background: none;
+  background: #eee;
   outline: none;
 }
 
@@ -404,32 +390,68 @@ body:has(.banner__description) .header__icon .cart-count-bubble span{
 /* Mobile adjustments */
 @media screen and (max-width: 749px) {
   .header__search {
-    padding-top: 0px !important; /* Maintains the 20px spacing on mobile */
+    padding-top: 20px !important;
+    position: relative;
+    width: auto;
+    margin-right: -5px;
   }
-  .search__input.field__input{
-        padding-right: 0rem !important;
-  }
+
   .header__search .search__input {
-    position: static;
-    transform: none;
-    width: 100%;
-    padding-left: 15px;
+    position: absolute;
+    right: 0;
+    width: 0;
+    padding: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
     background: #eee;
-    margin-top: 0; /* Reset for mobile */
+    border-radius: 5px;
+    height: 40px;
   }
-  
-  .header__search:hover .search__input,
-  .header__search .search__input:focus {
-    width: 100%;
-    padding-left: 15px;
-    padding-right: 90px;
+
+  .header__search.active .search__input {
+    width: calc(100vw - 120px); /* Adjust based on hamburger menu width */
+    padding: 10px 40px 10px 15px;
+    opacity: 1;
+    visibility: visible;
+    right: 0;
+    left: auto;
   }
-  
-  .header__search .search__button,
+
+  .header__search .search__button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background: transparent;
+    border: none;
+    padding: 10px;
+  }
+
   .header__search .reset__button {
-    top: auto;
-    transform: none;
-    margin-top: 0; /* Reset for mobile */
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background: transparent;
+    border: none;
+    padding: 10px;
+  }
+
+  .header__search.active .search__button {
+    right: 3px;
+  }
+
+  .header__search.active .reset__button {
+    right: 50px;
+  }
+
+  /* Ensure the search container doesn't overlap with hamburger menu */
+  header-drawer {
+    position: relative;
+    z-index: 3;
   }
 }
 
@@ -445,10 +467,7 @@ body:has(.banner__description) .header__icon .cart-count-bubble span{
 .header__search .search__button .fa-magnifying-glass {
   color: #460e91; /* Default purple color */
 }
-.banner__description ~ .header__search .search__button .fa-magnifying-glass,
-:has(.banner__description) .header__search .search__button .fa-magnifying-glass {
-  color: white;
-}
+
 /* Hover effects for search */
 .header__search:hover .search__button .fa-magnifying-glass {
   color: #000000 !important; /* Black on hover */
@@ -823,28 +842,167 @@ document.addEventListener('DOMContentLoaded', function() {
   const searchForms = document.querySelectorAll('.header__search form');
   
   searchForms.forEach(form => {
+    const searchButton = form.querySelector('.search__button');
+    const searchInput = form.querySelector('.search__input');
+    const resetButton = form.querySelector('.reset__button');
+    const searchContainer = form.closest('.header__search');
+    
+    // Function to clear search
+    const clearSearch = () => {
+      searchInput.value = '';
+      searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+      resetButton.style.opacity = '0';
+      resetButton.style.visibility = 'hidden';
+      searchContainer.classList.remove('active');
+      searchInput.focus();
+    };
+
+    // Handle form submission
     form.addEventListener('submit', function(e) {
-      const input = this.querySelector('.search__input');
-      if (!input.value.trim()) {
+      if (!searchInput.value.trim()) {
         e.preventDefault();
-        input.focus();
+        searchInput.focus();
       }
     });
     
-    const searchButton = form.querySelector('.search__button');
     if (searchButton) {
       searchButton.addEventListener('click', function(e) {
-        const input = form.querySelector('.search__input');
-        if (!input.value.trim()) {
-          e.preventDefault();
-          input.focus();
+        e.preventDefault();
+        if (searchInput.value.trim()) {
+          // Store the current value before submitting
+          const currentValue = searchInput.value;
+          form.submit();
+          // After submission, clear the input
+          setTimeout(() => {
+            searchInput.value = '';
+            resetButton.style.opacity = '0';
+            resetButton.style.visibility = 'hidden';
+          }, 100);
+        } else {
+          searchInput.focus();
         }
       });
     }
+
+    // Handle reset button click
+    if (resetButton) {
+      resetButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        clearSearch();
+      });
+    }
+
+    // Handle input focus
+    searchInput.addEventListener('focus', function() {
+      searchContainer.classList.add('active');
+      // Show reset button if there's text
+      if (this.value.trim()) {
+        resetButton.style.opacity = '1';
+        resetButton.style.visibility = 'visible';
+      }
+    });
+
+    // Handle input blur
+    searchInput.addEventListener('blur', function() {
+      setTimeout(() => {
+        if (!searchInput.value.trim()) {
+          searchContainer.classList.remove('active');
+        }
+      }, 200);
+    });
+
+    // Show/hide reset button based on input value
+    searchInput.addEventListener('input', function() {
+      if (this.value.trim()) {
+        resetButton.style.opacity = '1';
+        resetButton.style.visibility = 'visible';
+      } else {
+        resetButton.style.opacity = '0';
+        resetButton.style.visibility = 'hidden';
+      }
+    });
+
+    // Clear search when page loads
+    clearSearch();
+  });
+
+  // Close search when clicking outside
+  document.addEventListener('click', function(e) {
+    const searchContainers = document.querySelectorAll('.header__search');
+    searchContainers.forEach(container => {
+      if (!container.contains(e.target)) {
+        container.classList.remove('active');
+      }
+    });
   });
 });
 </script>
 {%- endif -%}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize menu drawer
+  class MenuDrawer extends HTMLElement {
+    constructor() {
+      super();
+      this.mainDetailsToggle = this.querySelector('details');
+      this.addEventListener('keyup', this.onKeyUp.bind(this));
+      this.addEventListener('focusout', this.onFocusOut.bind(this));
+      this.bindEvents();
+    }
+
+    bindEvents() {
+      this.querySelectorAll('summary').forEach(summary => summary.addEventListener('click', this.onSummaryClick.bind(this)));
+      this.querySelectorAll('button:not(.localization-selector__button)').forEach(button => button.addEventListener('click', this.onCloseButtonClick.bind(this)));
+    }
+
+    onKeyUp(event) {
+      if (event.code.toUpperCase() !== 'ESCAPE') return;
+      const openDetailsElement = event.target.closest('details[open]');
+      if (!openDetailsElement) return;
+      openDetailsElement === this.mainDetailsToggle ? this.closeMenuDrawer(event, this.mainDetailsToggle.querySelector('summary')) : this.closeSubmenu(openDetailsElement);
+    }
+
+    onSummaryClick(event) {
+      const summaryElement = event.currentTarget;
+      const detailsElement = summaryElement.parentNode;
+      const isOpen = detailsElement.hasAttribute('open');
+
+      if (detailsElement === this.mainDetailsToggle) {
+        if (isOpen) event.preventDefault();
+        isOpen ? this.closeMenuDrawer(event, summaryElement) : this.openMenuDrawer(summaryElement);
+      }
+    }
+
+    openMenuDrawer(summaryElement) {
+      setTimeout(() => {
+        this.mainDetailsToggle.classList.add('menu-opening');
+      });
+      summaryElement.setAttribute('aria-expanded', true);
+      document.body.classList.add('overflow-hidden');
+    }
+
+    closeMenuDrawer(event, elementToFocus) {
+      if (!elementToFocus) return;
+      this.mainDetailsToggle.classList.remove('menu-opening');
+      this.mainDetailsToggle.querySelectorAll('details').forEach(details => {
+        details.removeAttribute('open');
+        details.classList.remove('menu-opening');
+      });
+      document.body.classList.remove('overflow-hidden');
+      elementToFocus.focus();
+    }
+
+    onCloseButtonClick(event) {
+      const detailsElement = event.currentTarget.closest('details');
+      this.closeMenuDrawer(event, detailsElement.querySelector('summary'));
+    }
+  }
+
+  customElements.define('header-drawer', MenuDrawer);
+});
+</script>
 
 {% schema %}
 {

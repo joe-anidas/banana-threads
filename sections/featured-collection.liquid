@@ -29,7 +29,12 @@
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
-
+.price-item,
+.price-item--sale,
+.price-item--last,
+.change {
+   font-family: 'Montserrat', Arial, sans-serif;
+}
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
@@ -67,7 +72,7 @@
   /* PRODUCT TITLE STYLING */
   .card__information h3,
   .product-title {
-    font-size: 20px !important;
+    font-size:20px !important;
     font-weight: 700 !important;
     text-align: left !important;
     margin: 0.5rem 0;
@@ -149,7 +154,7 @@
     scroll-padding-left: 1.5rem !important; /* Ensures first item snaps properly */
     gap: 1.5rem !important; /* Restore gap between items */
   }
-
+.card__information h3, .product-title{font-size: 16px !important;}
   .product-grid::-webkit-scrollbar {
     display: none !important;
   }
