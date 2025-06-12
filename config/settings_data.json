@@ -239,8 +239,8 @@
         "settings": {
           "background": "#ffffff",
           "hover_color": "#dcb301",
-          "background_gradient": "linear-gradient(180deg, #d4bdff, #c6ddfe 50.5%,  #c6ddfe 100%)",
-          "text": "#4a0072",
+          "background_gradient": "linear-gradient(180deg, rgba(212, 189, 255, 1), rgba(198, 221, 254, 1) 50.5%, rgba(198, 221, 254, 1) 100%)",
+          "text": "#460e91",
           "button": "#121212",
           "button_label": "#ffffff",
           "secondary_button_label": "#121212",

@@ -7,7 +7,13 @@
   --focused-base-outline-offset: 0.3rem;
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
 }
-
+.cart-item__final-price, .cart-item__old-price, .cart-item__price-wrapper .price, .totals__total-value, .totals__total,
+.price-item,
+  .price-item--sale,
+  .price-item--last,
+  .change, .product-option {
+     font-family: 'Montserrat', Arial, sans-serif;
+  }
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);

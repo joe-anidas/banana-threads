@@ -11,7 +11,14 @@
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
+.price__regular .price-item--regular {
+   font-family: 'Montserrat', Arial, sans-serif;
+}
 
+  .related-products__heading{
+        font-size: 25px !important;
+    font-weight: 700 !important;
+  }
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;

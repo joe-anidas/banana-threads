@@ -27,6 +27,26 @@
   {%- endif -%}
 
   {%- style -%}
+    .price-item,
+.price-item--sale,
+.price-item--last,
+.change {
+   font-family: 'Montserrat', Arial, sans-serif;
+}
+    .page-width .product {
+        padding: 1.5rem 0 3rem 0rem !important;
+    }
+
+    .product-description-toggle{
+          margin-top: 2.5rem !important;
+    }
+    .product__description p{
+      margin: 0.5rem 0 0.5rem 0 !important;
+    }
+.price, .price--large, .price .price-item, .price__regular .price-item--regular{
+  color: #460e91  !important;
+  font-weight:600;
+}
 
   {%- endstyle -%}
 
@@ -490,97 +510,16 @@
                           <button class="size-tab" data-unit="cm">Centimeters</button>
                         </div>
                        <div class="size-table-wrapper">
-{% comment %} Determine if product is in Benny Madness collection {% endcomment %}
-{% assign is_benny_madness = false %}
+
+{% assign is_oversized = false %}
 {% for collection in product.collections %}
-  {% if collection.handle == 'Benny-Madness' %}
-    {% assign is_benny_madness = true %}
+  {% if collection.handle == 'streetwear-designs' %}
+    {% assign is_oversized = true %}
   {% endif %}
 {% endfor %}
 
-{% if is_benny_madness %}
-
-    {% comment %} Inches Table - Benny Madness (smaller sizes) {% endcomment %}
-    <table class="size-table active" data-unit="inches">
-      <thead>
-        <tr>
-          <th>Inches</th>
-          <th>S</th>
-          <th>M</th>
-          <th>L</th>
-          <th>XL</th>
-          <th>XXL</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Length</td>
-          <td>26</td>
-          <td>27</td>
-          <td>28</td>
-          <td>29</td>
-          <td>30</td>
-        </tr>
-        <tr>
-          <td>Chest</td>
-          <td>38</td>
-          <td>40</td>
-          <td>42</td>
-          <td>44</td>
-          <td>46</td>
-        </tr>
-        <tr>
-          <td>Shoulder</td>
-          <td>16</td>
-          <td>17</td>
-          <td>18</td>
-          <td>19</td>
-          <td>20</td>
-        </tr>
-      </tbody>
-    </table>
-    
-    {% comment %} Centimeters Table - Benny Madness (smaller sizes) {% endcomment %}
-    <table class="size-table" data-unit="cm">
-      <thead>
-        <tr>
-          <th>Centimeters</th>
-          <th>S</th>
-          <th>M</th>
-          <th>L</th>
-          <th>XL</th>
-          <th>XXL</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Length</td>
-          <td>66</td>
-          <td>68.6</td>
-          <td>71.1</td>
-          <td>73.7</td>
-          <td>76.2</td>
-        </tr>
-        <tr>
-          <td>Chest</td>
-          <td>96.5</td>
-          <td>101.6</td>
-          <td>106.7</td>
-          <td>111.8</td>
-          <td>116.8</td>
-        </tr>
-        <tr>
-          <td>Shoulder</td>
-          <td>40.6</td>
-          <td>43.2</td>
-          <td>45.7</td>
-          <td>48.3</td>
-          <td>50.8</td>
-        </tr>
-      </tbody>
-    </table>
-  {% else %}
-    {% comment %} Inches Table - Default (larger sizes) {% endcomment %}
+{% if is_oversized %}
+  {% comment %} Inches Table - Default (larger sizes) {% endcomment %}
     <table class="size-table active" data-unit="inches">
       <thead>
         <tr>
@@ -656,6 +595,87 @@
           <td>53.3</td>
           <td>55.9</td>
           <td>58.4</td>
+        </tr>
+      </tbody>
+    </table>
+
+  {% else %}
+      {% comment %} Inches Table - Benny Madness (smaller sizes) {% endcomment %}
+    <table class="size-table active" data-unit="inches">
+      <thead>
+        <tr>
+          <th>Inches</th>
+          <th>S</th>
+          <th>M</th>
+          <th>L</th>
+          <th>XL</th>
+          <th>XXL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Length</td>
+          <td>26</td>
+          <td>27</td>
+          <td>28</td>
+          <td>29</td>
+          <td>30</td>
+        </tr>
+        <tr>
+          <td>Chest</td>
+          <td>38</td>
+          <td>40</td>
+          <td>42</td>
+          <td>44</td>
+          <td>46</td>
+        </tr>
+        <tr>
+          <td>Shoulder</td>
+          <td>16</td>
+          <td>17</td>
+          <td>18</td>
+          <td>19</td>
+          <td>20</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    {% comment %} Centimeters Table - Benny Madness (smaller sizes) {% endcomment %}
+    <table class="size-table" data-unit="cm">
+      <thead>
+        <tr>
+          <th>Centimeters</th>
+          <th>S</th>
+          <th>M</th>
+          <th>L</th>
+          <th>XL</th>
+          <th>XXL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Length</td>
+          <td>66</td>
+          <td>68.6</td>
+          <td>71.1</td>
+          <td>73.7</td>
+          <td>76.2</td>
+        </tr>
+        <tr>
+          <td>Chest</td>
+          <td>96.5</td>
+          <td>101.6</td>
+          <td>106.7</td>
+          <td>111.8</td>
+          <td>116.8</td>
+        </tr>
+        <tr>
+          <td>Shoulder</td>
+          <td>40.6</td>
+          <td>43.2</td>
+          <td>45.7</td>
+          <td>48.3</td>
+          <td>50.8</td>
         </tr>
       </tbody>
     </table>
